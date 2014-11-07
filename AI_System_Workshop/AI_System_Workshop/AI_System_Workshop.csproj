@@ -69,6 +69,7 @@
     <Compile Include="ComponentDestructionEvent.cs" />
     <Compile Include="DamageEvent.cs" />
     <Compile Include="General.cs" />
+    <Compile Include="Mission.cs" />
     <Compile Include="MissionObjective.cs" />
     <Compile Include="MovementEvent.cs" />
     <Compile Include="MovementOrder.cs" />
