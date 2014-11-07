@@ -6,36 +6,25 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    public enum MissionType { EXTERMINATE, DESTROY_SPACE_STATION, DEFENT_SPACE_STATION, ESCORT_SHIP, ATTACK_PLANET, DEFEND_PLANET }
     class General
     {
         private List<ShipBlueprint> availableShips;
-        public List<ShipBlueprint> AvailableShips
-        {
-            get { return availableShips; }
-            set { availableShips = value; }
-        }
-        private List<ShipBlueprint> currentFleet;
-        public List<ShipBlueprint> CurrentFleet
-        {
-            get { return currentFleet; }
-            set { currentFleet = value; }
-        }
+        
+        private Queue<BattleReport> battleHistory;
+
         public General()
         {
-
             Console.WriteLine("General Created");
 
             availableShips = new List<ShipBlueprint>();
-            currentFleet = new List<ShipBlueprint>();
 
+            //DEBUG
             availableShips.Add(new ShipBlueprint());
-            currentFleet.Add(new ShipBlueprint());
         }
 
-        public List<AI_Objective> GenerateObjectives(MissionType type)
+        public void GenerateObjectives(Mission mission, ref List<AI_Objective> aiObjectives)
         {
-            return new List<AI_Objective>();
+            aiObjectives = null;
         }
 
         public void ProcessBattleReport(BattleReport report)
@@ -43,9 +32,9 @@ namespace AI_System_Workshop
 
         }
 
-        public List<ShipBlueprint> CalculateFleetForMission(List<AI_Objective> objectives)
+        public void CalculateFleetForMission(List<AI_Objective> objectives, ref List<ShipBlueprint> currentFleet)
         {
-            return new List<ShipBlueprint>();
+            currentFleet = null;
         }
     }
 }

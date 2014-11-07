@@ -8,7 +8,7 @@ namespace AI_System_Workshop
 {
     class Mission
     {
-        public enum MissionType { EliminateEnemies, DestroyEnemyStructure, Escort, DistressCall };
+        public enum MissionType { EXTERMINATE, DESTROY_SPACE_STATION, DEFENT_SPACE_STATION, ESCORT_SHIP, ATTACK_PLANET, DEFEND_PLANET }
         MissionType missionType;
     }
 }

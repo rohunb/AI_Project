@@ -9,25 +9,20 @@ namespace AI_System_Workshop
     class Commander
     {
         private Dictionary<PlayerUnit, Archetype> enemyArchetype_table;
-        public Dictionary<PlayerUnit, Archetype> EnemyArchetype_table
-        {
-            get { return enemyArchetype_table; }
-            set { enemyArchetype_table = value; }
-        }
-
         private List<BattleEvent> predictedEvents;
-        public List<BattleEvent> PredictedEvents
+        private Dictionary<BattleEvent, Order> possibleEventResponse;
+        private List<AI_Objective> currentObjectives;
+
+        public List<AI_Objective> CurrentObjectives
         {
-            get { return predictedEvents; }
-            set { predictedEvents = value; }
+            get { return currentObjectives; }
+            set
+            {
+                Console.WriteLine("Commander's setObjective called");
+                currentObjectives = value;
+            }
         }
 
-        private Dictionary<BattleEvent, Order> possibleEventResponse;
-        public Dictionary<BattleEvent, Order> PossibleEventResponse
-        {
-            get { return possibleEventResponse; }
-            set { possibleEventResponse = value; }
-        }
 
         public Commander()
         {
@@ -37,11 +32,27 @@ namespace AI_System_Workshop
             //DEBUG
             enemyArchetype_table.Add(new PlayerUnit(), Archetype.SHOTGUN);
         }
-
-        public void setObjectives(List<AI_Objective> objectives)
+        
+        void DetermineArchetype(Unit unit)
         {
-            Console.WriteLine("Commander's setObjective called");
+
         }
 
+        void OnBattleEvent(BattleEvent battleEvent)
+        {
+
+        }
+        void LookAhead()
+        {
+
+        }
+        void AssignOrders()
+        {
+
+        }
+        BattleReport ReportBattleReport()
+        {
+            return null;
+        }
     }
 }
