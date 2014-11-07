@@ -32,11 +32,15 @@ namespace AI_System_Workshop
         public Commander()
         {
             Console.WriteLine("Commander created");
+            enemyArchetype_table = new Dictionary<PlayerUnit, Archetype>();
+
+            //DEBUG
+            enemyArchetype_table.Add(new PlayerUnit(), Archetype.SHOTGUN);
         }
 
         public void setObjectives(List<AI_Objective> objectives)
         {
-
+            Console.WriteLine("Commander's setObjective called");
         }
 
     }
