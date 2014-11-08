@@ -8,9 +8,9 @@ namespace AI_System_Workshop
 {
     class Commander
     {
-        private Dictionary<PlayerUnit, Archetype> enemyArchetype_table;
-        private List<BattleEvent> predictedEvents;
-        private Dictionary<BattleEvent, Order> possibleEventResponse;
+        private Dictionary<PlayerUnit, AI_Unit.Archetype> enemyArchetype_table;
+        private List<BattleEventArgs> predictedEvents;
+        private Dictionary<BattleEventArgs, Order> possibleEventResponse;
         private List<AI_Objective> currentObjectives;
 
         public List<AI_Objective> CurrentObjectives
@@ -27,10 +27,10 @@ namespace AI_System_Workshop
         public Commander()
         {
             Console.WriteLine("Commander created");
-            enemyArchetype_table = new Dictionary<PlayerUnit, Archetype>();
+            enemyArchetype_table = new Dictionary<PlayerUnit, AI_Unit.Archetype>();
 
             //DEBUG
-            enemyArchetype_table.Add(new PlayerUnit(), Archetype.SHOTGUN);
+            enemyArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
         }
         
         void DetermineArchetype(Unit unit)
@@ -38,7 +38,7 @@ namespace AI_System_Workshop
 
         }
 
-        void OnBattleEvent(BattleEvent battleEvent)
+        void OnBattleEvent(BattleEventArgs battleEvent)
         {
 
         }

@@ -6,20 +6,15 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    enum MovementOrderType { HOLDPOSITION, RETREAT }
-
     class MovementOrder : Order
     {
-        private MovementOrderType type;
-        public AI_System_Workshop.MovementOrderType Type
-        {
-            get { return type; }
-            set { type = value; }
-        }
+        public enum MovementOrderType { HOLDPOSITION, RETREAT }
 
-        public MovementOrder()
+        private MovementOrderType type;
+        public MovementOrder(MovementOrderType _type)
         {
-            Console.WriteLine("MovementOrder Created");
+            Console.WriteLine("MovementOrder Created of type "+ _type.ToString());
+            type = _type;
         }
     }
 }

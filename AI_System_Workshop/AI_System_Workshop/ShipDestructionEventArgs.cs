@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    class ShipDestructionEvent: BattleEvent
+    class ShipDestructionEventArgs: BattleEventArgs
     {
         private Dictionary<Unit, float> damageSources;
         public Dictionary<Unit, float> DamageSources
@@ -21,7 +21,7 @@ namespace AI_System_Workshop
             set { timeAlive = value; }
         }
 
-        public ShipDestructionEvent()
+        public ShipDestructionEventArgs()
         {
             Console.WriteLine("ShipDestructionEvent Created");
         }

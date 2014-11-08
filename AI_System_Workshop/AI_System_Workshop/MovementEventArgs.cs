@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    class MovementEvent: BattleEvent
+    class MovementEventArgs: BattleEventArgs
     {
         private Unit source;
         public AI_System_Workshop.Unit Source
@@ -27,7 +27,7 @@ namespace AI_System_Workshop
             set { angle = value; }
         }
 
-        public MovementEvent()
+        public MovementEventArgs()
         {
             Console.WriteLine("MovementEvent Created");
         }

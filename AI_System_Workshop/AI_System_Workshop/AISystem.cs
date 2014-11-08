@@ -6,8 +6,6 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-
-
     class AISystem
     {
         private List<ShipBlueprint> currentFleet;

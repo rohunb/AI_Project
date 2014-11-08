@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    class ComponentDestructionEvent: BattleEvent
+    class ComponentDestructionEventArgs: BattleEventArgs
     {
         private Unit u_source;
         public Unit u_Source
@@ -33,7 +33,7 @@ namespace AI_System_Workshop
             set { c_destination = value; }
         }
 
-        public ComponentDestructionEvent()
+        public ComponentDestructionEventArgs()
         {
             Console.WriteLine("ComponentDestructionEvent Created");
         }

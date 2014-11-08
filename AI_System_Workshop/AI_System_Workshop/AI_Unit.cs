@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    public enum Archetype { TANK, SUPPORT, SCOUT, SNIPER, SHOTGUN, DISABLER, BROADSIDER }
     class AI_Unit
     {
-        private Archetype archetype;
-        public Archetype Archetype
+        public enum Archetype { TANK, SUPPORT, SCOUT, SNIPER, SHOTGUN, DISABLER, BROADSIDER }
+
+        private Archetype unitArchetype;
+        public Archetype UnitArchetype
         {
-            get { return archetype; }
-            set { archetype = value; }
+            get { return unitArchetype; }
+            set { unitArchetype = value; }
         }
 
         private Order currentOrder;
@@ -31,11 +32,6 @@ namespace AI_System_Workshop
         public float DetermineOrderExecutionViability(Order o)
         {
             return 0.0f;
-        }
-
-        public void AssignOrder(Order o)
-        {
-
         }
 
         public void CalculateNextTurn()

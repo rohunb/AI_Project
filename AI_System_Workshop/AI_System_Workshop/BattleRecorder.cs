@@ -8,26 +8,28 @@ namespace AI_System_Workshop
 {
     class BattleRecorder
     {
-        private Queue<BattleEvent> eventLog;
-        public Queue<BattleEvent> EventLog
+        private Queue<BattleEventArgs> eventLog;
+        public Queue<BattleEventArgs> EventLog
         {
             get { return eventLog; }
-            set { eventLog = value; }
-        }
-
-        public void OnBattleEvent(BattleEvent be)
-        {
-
-        }
-
-        BattleReport GenerateBattleReport()
-        {
-            return new BattleReport();
         }
 
         public BattleRecorder()
         {
             Console.WriteLine("BattleRecorder created");
+            TurnBasedCombatSystem.Instance.OnBattleEvent+=OnBattleEvent;
         }
+
+        private void OnBattleEvent(BattleEventArgs battleEventArgs)
+        {
+            Console.WriteLine("BattleRecorder received BattleEvent");
+        }
+
+        public BattleReport GenerateBattleReport()
+        {
+            return new BattleReport();
+        }
+
+        
     }
 }

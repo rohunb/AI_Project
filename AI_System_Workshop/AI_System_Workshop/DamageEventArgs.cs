@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    class DamageEvent: BattleEvent
+    class DamageEventArgs: BattleEventArgs
     {
         private Unit u_source;
         public Unit u_Source
@@ -39,7 +39,7 @@ namespace AI_System_Workshop
             set { amount = value; }
         }
 
-        public DamageEvent()
+        public DamageEventArgs()
         {
             Console.WriteLine("DamageEvent Created");
         }
