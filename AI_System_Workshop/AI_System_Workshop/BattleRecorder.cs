@@ -22,11 +22,15 @@ namespace AI_System_Workshop
 
         private void OnBattleEvent(BattleEventArgs battleEventArgs)
         {
-            Console.WriteLine("BattleRecorder received BattleEvent");
+            Console.WriteLine("BattleRecorder: BattleEvent");
         }
-
+        private void OnStartTurnCycle()
+        {
+            Console.WriteLine("BattleRecorder: OnStartTurnCycle");
+        }
         public BattleReport GenerateBattleReport()
         {
+            Console.WriteLine("Generating battle report");
             return new BattleReport();
         }
 

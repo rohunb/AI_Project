@@ -16,7 +16,7 @@ namespace AI_System_Workshop
             //success 
 
             AISystem testAISystem = new AISystem();
-
+            TurnBasedCombatSystem.Instance.EventsTester();
             Console.ReadLine();
         }
     }

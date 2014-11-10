@@ -8,7 +8,7 @@ namespace AI_System_Workshop
 {
     class Commander
     {
-        private Dictionary<PlayerUnit, AI_Unit.Archetype> enemyArchetype_table;
+        private Dictionary<PlayerUnit, AI_Unit.Archetype> playerShipArchetype_table;
         private List<BattleEventArgs> predictedEvents;
         private Dictionary<BattleEventArgs, Order> possibleEventResponse;
         private List<AI_Objective> currentObjectives;
@@ -27,30 +27,51 @@ namespace AI_System_Workshop
         public Commander()
         {
             Console.WriteLine("Commander created");
-            enemyArchetype_table = new Dictionary<PlayerUnit, AI_Unit.Archetype>();
+            playerShipArchetype_table = new Dictionary<PlayerUnit, AI_Unit.Archetype>();
+            TurnBasedCombatSystem.Instance.OnStartTurnCycle += StartTurnCycle;
+            TurnBasedCombatSystem.Instance.OnBattleEvent += BattleEvent;
+
 
             //DEBUG
-            enemyArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
+            playerShipArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
+        }
+
+        
+        
+        public void PrepareForBattle()
+        {
+            Console.WriteLine("Commander: Preparing For Battle");
+            /*
+             * Assign Archetypes to all units, including playerShips
+             * Determine fleet positioning
+             * 
+             */
+
         }
         
-        void DetermineArchetype(Unit unit)
+        private void DetermineArchetype(Unit unit)
         {
 
         }
 
-        void OnBattleEvent(BattleEventArgs battleEvent)
+        void StartTurnCycle()
         {
-
+            Console.WriteLine("Commander: Start Turn Cycle called");
         }
+        void BattleEvent(BattleEventArgs battleEventArgs)
+        {
+            Console.WriteLine("Commander: Battle Event called");
+        }
+        
         void LookAhead()
         {
-
+            
         }
         void AssignOrders()
         {
 
         }
-        BattleReport ReportBattleReport()
+        BattleReport GetBattleReport()
         {
             return null;
         }

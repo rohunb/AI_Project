@@ -25,6 +25,7 @@ namespace AI_System_Workshop
         private TurnBasedCombatSystem()
         {
             Console.WriteLine("TurnBasedSystem initiated");
+            
         }
         private List<PlayerUnit> playerUnits;
         public List<PlayerUnit> PlayerUnits
@@ -40,6 +41,16 @@ namespace AI_System_Workshop
 
         public delegate void BattleEvent(BattleEventArgs battleEventArgs);
         public event BattleEvent OnBattleEvent = new BattleEvent((BattleEventArgs battleEventArgs) => { });
+
+        public delegate void StartTurnCycle();
+        public event StartTurnCycle OnStartTurnCycle = new StartTurnCycle(() => { });
+
+        //DEBUG
+        public void EventsTester()
+        {
+            OnStartTurnCycle();
+            OnBattleEvent(null);
+        }
 
     }
 }

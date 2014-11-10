@@ -8,8 +8,8 @@ namespace AI_System_Workshop
 {
     class General
     {
+
         private List<ShipBlueprint> availableShips;
-        
         private Queue<BattleReport> battleHistory;
 
         public General()
@@ -22,19 +22,26 @@ namespace AI_System_Workshop
             availableShips.Add(new ShipBlueprint());
         }
 
-        public void GenerateObjectives(Mission mission, ref List<AI_Objective> aiObjectives)
+
+        /// <summary>
+        /// Generates objectives based on missionType and parameters;
+        /// Then calculates the best possible fleet composition to attain the objectives for the mission
+        /// </summary>
+        /// <param name="mission"></param>
+        /// <param name="aiObjectives"></param>
+        /// <param name="currentFleet"></param>
+        public void GenerateObjectivesAndFleet(Mission mission, ref List<AI_Objective> aiObjectives, ref List<ShipBlueprint> currentFleet)
         {
-            aiObjectives = null;
         }
 
+        /// <summary>
+        /// Calculates and makes changes to fleet composition and strategy based on results of the battle
+        /// </summary>
+        /// <param name="report"></param>
         public void ProcessBattleReport(BattleReport report)
         {
 
         }
 
-        public void CalculateFleetForMission(List<AI_Objective> objectives, ref List<ShipBlueprint> currentFleet)
-        {
-            currentFleet = null;
-        }
     }
 }
