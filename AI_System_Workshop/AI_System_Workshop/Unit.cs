@@ -11,10 +11,21 @@ namespace AI_System_Workshop
     /// </summary>
     class Unit
     {
+        static int numIUnits = 0;
+        private int ID;
+
         public Unit()
         {
-            Console.WriteLine("Unit Created");
-            Console.WriteLine("This should hook into Unity's Unit class");
+            ID = ++numIUnits;
+            Console.Write("Unit Created with ID: " + ID);
+            Console.WriteLine(".This should hook into Unity's Unit class");
+        }
+
+        // DEBUG/TESTING
+        public int getUnitID()
+        {
+            //replace with unique identifier
+            return ID;
         }
     }
 }

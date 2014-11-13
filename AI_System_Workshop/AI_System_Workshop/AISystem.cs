@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
+    //testing purposes
     public enum AISystemState {GALAXY_MAP,COMBAT,NONE }
     class AISystem
     {
@@ -13,12 +14,14 @@ namespace AI_System_Workshop
         private List<AI_Objective> currentObjectives;
         private BattleReport lastBattleReport;
 
-        public static AISystemState prevState = AISystemState.NONE;
-        public static AISystemState currState = AISystemState.NONE;
-        public static AISystemState nextState = AISystemState.NONE;
         General general = new General();
         Commander commander = new Commander();
 
+        //for testing purposes
+        public static AISystemState prevState = AISystemState.NONE;
+        public static AISystemState currState = AISystemState.NONE;
+        public static AISystemState nextState = AISystemState.NONE;
+       
         //testing purposes
         Mission m;
         

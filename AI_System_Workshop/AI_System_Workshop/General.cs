@@ -42,6 +42,58 @@ namespace AI_System_Workshop
         public void ProcessBattleReport(BattleReport report)
         {
             Console.WriteLine("General: ProcessBattleReport called");
+            Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ - BR Start");
+            Console.WriteLine("display battle report data:");
+            Console.WriteLine("engagement won?: " + report.wonEngagement);
+            Console.WriteLine("engagement duration?: " + report.battleDuration);
+            Console.WriteLine("Player objectives: ");
+            foreach (MissionObjective objective in report.playerObjectives)
+            {
+                Console.WriteLine(objective.displayObjectiveInfo());
+            }
+            Console.WriteLine("AI objectives: ");
+            foreach (AI_Objective objective in report.AI_objectives)
+            {
+                Console.WriteLine(objective.ToString());
+            }
+            Console.WriteLine("BattleData table entries: ");
+            foreach (KeyValuePair<Unit, BattleData> entry in report.battleDatatable)
+            {
+                Console.WriteLine("Unit :" + entry.Key.getUnitID());
+                Console.WriteLine("BattleData: ");
+                /*
+                            //damageDone //target
+                public Dictionary<float, Unit> damageDoneTable;
+                            //supportDone //target 
+                public Dictionary<float, Unit> supportDoneTable;
+                            //damageTaken //damager
+                public Dictionary<float, Unit> damageTakenTable;
+                            //damager //attackVector
+                public Dictionary<Unit, Vector3> attackVectorTable;
+                        //position
+                public Queue<Vector3> movements;
+                        //angle
+                public Queue<float> orientations;
+                 */
+                Console.WriteLine("Unit Lifetime: " + entry.Value.unitLifetime);
+                Console.WriteLine("Orders: ");
+                foreach (Order order in entry.Value.orders)
+                {
+                    Console.WriteLine(order.DisplayOderInfo());
+                }
+                Console.WriteLine("Damagedone table:");
+
+                foreach (KeyValuePair<float, Unit> damagePair in entry.Value.damageDoneTable)
+                {
+                   // Console.WriteLine(damagePair.Key + " damage done by Unit ID " + damagePair.Value.getUnitID());
+                }
+
+
+
+                Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ - BR End");
+
+            }
+            
         }
 
     }

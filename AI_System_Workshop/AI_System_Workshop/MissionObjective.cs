@@ -8,9 +8,19 @@ namespace AI_System_Workshop
 {
     class MissionObjective
     {
+        static int numIUnits = 0;
+        private int ID;
+
         public MissionObjective()
         {
-            Console.WriteLine("MissionObjective Created");
+            ID = ++numIUnits;
+            Console.WriteLine("MissionObjective Created with ID" + ID);
+        }
+
+        public string displayObjectiveInfo()
+        {
+            //DEBUG
+            return "objective " + ID + ": default debug mission objective";
         }
     }
 }

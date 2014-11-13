@@ -23,7 +23,6 @@ namespace AI_System_Workshop
             }
         }
 
-
         public Commander()
         {
             Console.WriteLine("Commander created");
@@ -31,13 +30,10 @@ namespace AI_System_Workshop
             TurnBasedCombatSystem.Instance.OnStartTurnCycle += StartTurnCycle;
             TurnBasedCombatSystem.Instance.OnBattleEvent += BattleEvent;
 
-
             //DEBUG
             playerShipArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
         }
 
-        
-        
         public void PrepareForBattle()
         {
             Console.WriteLine("Commander: Preparing For Battle");

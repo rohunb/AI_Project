@@ -26,7 +26,7 @@ namespace AI_System_Workshop
             testAISystem.OnPreSceneChange();
 
             //scene change in Unity
-            Console.WriteLine("Change Scene to Combat Scene");
+            Console.WriteLine("~~Change Scene to Combat Scene~~");
 
             testAISystem.OnPostSceneChange();
 
@@ -36,7 +36,7 @@ namespace AI_System_Workshop
             testAISystem.OnPreSceneChange();
 
             //scene change in Unity
-            Console.WriteLine("Change Scene to Galaxy Map");
+            Console.WriteLine("~~Change Scene to Galaxy Map~~");
 
             testAISystem.OnPostSceneChange();
 

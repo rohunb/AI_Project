@@ -11,10 +11,22 @@ namespace AI_System_Workshop
     /// </summary>
     class Vector3
     {
+        public float x, y, z;
         public Vector3()
         {
-            Console.WriteLine("Vector3 Created");
+            
+            Console.Write("Vector3 Created .");
             Console.WriteLine("This should hook into Unity's Vector3 class");
+            x = y = z = 0.0f;
         }
+
+        public Vector3(float _x, float _y, float _z)
+        {
+            x = _x;
+            y = _y;
+            z = _z;
+
+        }
+
     }
 }
