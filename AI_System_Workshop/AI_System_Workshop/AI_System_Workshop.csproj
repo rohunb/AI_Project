@@ -69,6 +69,7 @@
     <Compile Include="Component.cs" />
     <Compile Include="ComponentDestructionEventArgs.cs" />
     <Compile Include="DamageEventArgs.cs" />
+    <Compile Include="GameController.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Mission.cs" />
     <Compile Include="MissionObjective.cs" />
