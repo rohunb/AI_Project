@@ -10,5 +10,11 @@ namespace AI_System_Workshop
     {
         public enum MissionType { EXTERMINATE, DESTROY_SPACE_STATION, DEFENT_SPACE_STATION, ESCORT_SHIP, ATTACK_PLANET, DEFEND_PLANET }
         MissionType missionType;
+
+        public Mission()
+        {
+            //debug
+            Console.WriteLine("Mission has been created");
+        }
     }
 }

@@ -16,7 +16,30 @@ namespace AI_System_Workshop
             //success 
 
             AISystem testAISystem = new AISystem();
+
             TurnBasedCombatSystem.Instance.EventsTester();
+
+            Console.WriteLine();
+            AISystem.currState = AISystemState.GALAXY_MAP;
+            AISystem.nextState = AISystemState.COMBAT;
+
+            testAISystem.OnPreSceneChange();
+
+            //scene change in Unity
+            Console.WriteLine("Change Scene to Combat Scene");
+
+            testAISystem.OnPostSceneChange();
+
+            Console.WriteLine();
+            AISystem.nextState = AISystemState.GALAXY_MAP;
+
+            testAISystem.OnPreSceneChange();
+
+            //scene change in Unity
+            Console.WriteLine("Change Scene to Galaxy Map");
+
+            testAISystem.OnPostSceneChange();
+
             Console.ReadLine();
         }
     }

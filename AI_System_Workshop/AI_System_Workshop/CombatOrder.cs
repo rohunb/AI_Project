@@ -16,7 +16,7 @@ namespace AI_System_Workshop
 
         public CombatOrder(CombatOrderType _type)
         {
-            Console.WriteLine("BattleOrder created of type " + _type.ToString());
+            Console.WriteLine("CombatOrder created of type " + _type.ToString());
             type = _type;
         }
     }

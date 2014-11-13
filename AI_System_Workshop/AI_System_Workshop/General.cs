@@ -32,6 +32,7 @@ namespace AI_System_Workshop
         /// <param name="currentFleet"></param>
         public void GenerateObjectivesAndFleet(Mission mission, ref List<AI_Objective> aiObjectives, ref List<ShipBlueprint> currentFleet)
         {
+            Console.WriteLine("General: GenerateObjectivesAndFleet called");
         }
 
         /// <summary>
@@ -40,7 +41,7 @@ namespace AI_System_Workshop
         /// <param name="report"></param>
         public void ProcessBattleReport(BattleReport report)
         {
-
+            Console.WriteLine("General: ProcessBattleReport called");
         }
 
     }

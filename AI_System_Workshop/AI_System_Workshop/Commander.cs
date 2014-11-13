@@ -51,7 +51,7 @@ namespace AI_System_Workshop
         
         private void DetermineArchetype(Unit unit)
         {
-
+            Console.WriteLine("Commander: DetermineArchetype called");
         }
 
         void StartTurnCycle()
@@ -65,15 +65,18 @@ namespace AI_System_Workshop
         
         void LookAhead()
         {
-            
+            Console.WriteLine("Commander: LookAhead called");
         }
+
         void AssignOrders()
         {
-
+            Console.WriteLine("Commander: AssignOrders called");
         }
-        BattleReport GetBattleReport()
+
+        public BattleReport GetBattleReport()
         {
-            return null;
+            Console.WriteLine("Commander: GetBattleReport called");
+            return new BattleReport();
         }
     }
 }
