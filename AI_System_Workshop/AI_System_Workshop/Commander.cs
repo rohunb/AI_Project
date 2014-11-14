@@ -8,12 +8,18 @@ namespace AI_System_Workshop
 {
     class Commander
     {
+        private List<AI_Unit> currentFleet;
+        public List<AI_Unit> CurrentFleet
+        {
+            get { return currentFleet; }
+            set { currentFleet = value; }
+        }
+
         private Dictionary<PlayerUnit, AI_Unit.Archetype> playerShipArchetype_table;
         private Dictionary<Unit, AI_Unit.Archetype> ShipArchetype_table;
         private List<BattleEventArgs> predictedEvents;
         private Dictionary<BattleEventArgs, Order> possibleEventResponse;
         private List<AI_Objective> currentObjectives;
-
         public List<AI_Objective> CurrentObjectives
         {
             get { return currentObjectives; }
@@ -32,7 +38,7 @@ namespace AI_System_Workshop
             TurnBasedCombatSystem.Instance.OnStartTurnCycle += StartTurnCycle;
             TurnBasedCombatSystem.Instance.OnBattleEvent += BattleEvent;
 
-            
+
         }
 
         public void PrepareForBattle()
@@ -49,7 +55,7 @@ namespace AI_System_Workshop
             ShipArchetype_table.Add(new Unit(), AI_Unit.Archetype.SNIPER);
 
         }
-        
+
         private AI_Unit.Archetype DetermineArchetype(Unit unit)
         {
             Console.WriteLine("Commander: DetermineArchetype called");
@@ -64,7 +70,7 @@ namespace AI_System_Workshop
         {
             Console.WriteLine("Commander: Battle Event called");
         }
-        
+
         void LookAhead()
         {
             Console.WriteLine("Commander: LookAhead called");

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace AI_System_Workshop
 {
     //testing purposes
-    public enum AISystemState {GALAXY_MAP,COMBAT,NONE }
+    //public enum AISystemState {GALAXY_MAP,COMBAT,NONE }
     class AISystem
     {
         private List<ShipBlueprint> currentFleet;
@@ -18,83 +18,114 @@ namespace AI_System_Workshop
         Commander commander = new Commander();
 
         //for testing purposes
-        public static AISystemState prevState = AISystemState.NONE;
-        public static AISystemState currState = AISystemState.NONE;
-        public static AISystemState nextState = AISystemState.NONE;
-       
+        //public static AISystemState prevState = AISystemState.NONE;
+        //public static AISystemState currState = AISystemState.NONE;
+        //public static AISystemState nextState = AISystemState.NONE;
+
         //testing purposes
         Mission m;
-        
+
         public AISystem()
         {
             currentFleet = new List<ShipBlueprint>();
             currentObjectives = new List<AI_Objective>();
             lastBattleReport = null;
 
+            GameController.Instance.OnPreSceneChange+=OnPreSceneChange;
+            GameController.Instance.OnPostSceneChange += OnPostSceneChange;
+
             //testing purposes
-            m = new Mission();
+            //m = new Mission();
         }
 
-       public void OnPreSceneChange()
+        public void OnPreSceneChange(PreSceneChangeArgs args)
         {
             Console.WriteLine("OnPreSceneChange Called");
-            if (currState == AISystemState.GALAXY_MAP)
+            //if (currState == AISystemState.GALAXY_MAP)
+            //{
+            //    if (nextState == AISystemState.COMBAT)
+            //    {
+            //        prevState = currState;
+            //        currState = nextState;
+
+            //        //persist objectives and fleet
+            //        general.GenerateObjectivesAndFleet(m, ref currentObjectives, ref currentFleet);
+
+            //    }
+            //}
+
+            //if (currState == AISystemState.COMBAT)
+            //{
+            //    if (nextState == AISystemState.GALAXY_MAP)
+            //    {
+            //        prevState = currState;
+            //        currState = nextState;
+
+            //        //persist battleReport
+            //        lastBattleReport = commander.GetBattleReport();
+
+            //    }
+            //}
+            /*
+             * if currentScene == GalaxyMap
+             *       if nextScene == CombatScene
+             *           get next mission from mission controller
+             *           general->generateObjectives
+             *           general->calculateFleet
+             *           save info for transfer to commander / dontDestroyOnLoad
+             * 
+             * if currentScene == CombatScene
+             *       if nextScene == GalaxyMap
+             *           commander->GetBattleReport
+             *           
+             */
+
+            switch (args.CurrentScene)
             {
-                if (nextState == AISystemState.COMBAT)
-                {
-                    prevState = currState;
-                    currState = nextState;
-
-                    //persist objectives and fleet
-                    general.GenerateObjectivesAndFleet(m, ref currentObjectives, ref currentFleet);
-                    
-                }
+                case GameScene.MainMenu:
+                    break;
+                case GameScene.GalaxyMap:
+                    //if switching from Galaxy to Combat the general has to generate ai_objectives and a fleet
+                    if (args.NextScene == GameScene.CombatScene)
+                    {
+                        general.GenerateObjectivesAndFleet(MissionController.Instance.CurrentMission, ref currentObjectives, ref currentFleet);
+                        
+                    }
+                    break;
+                case GameScene.CombatScene:
+                    //if switching from Combat to Galaxy, the BattleReport is retrieved from the commander
+                    if(args.NextScene == GameScene.GalaxyMap)
+                    {
+                        lastBattleReport = commander.GetBattleReport();
+                    }
+                    break;
+                case GameScene.ShipDesignScene:
+                    break;
+                default:
+                    break;
             }
-
-            if (currState == AISystemState.COMBAT)
-            {
-                if (nextState == AISystemState.GALAXY_MAP)
-                {
-                    prevState = currState;
-                    currState = nextState;
-
-                    //persist battleReport
-                    lastBattleReport = commander.GetBattleReport();
-
-                }
-            }
-           /*
-            * if currentScene == GalaxyMap
-            *       if nextScene == CombatScene
-            *           get next mission from mission controller
-            *           general->generateObjectives
-            *           general->calculateFleet
-            *           save info for transfer to commander / dontDestroyOnLoad
-            * 
-            * if currentScene == CombatScene
-            *       if nextScene == GalaxyMap
-            *           commander->GetBattleReport
-            *           
-            */
+            //data saves regardless of transition
+            SaveData();
         }
 
-       public void OnPostSceneChange()
-       {
-           Console.WriteLine("OnPostSCeenChange Called");
-           if (currState == AISystemState.COMBAT)
-           {
-               //commander.SetCurrentFleet(shipBuilder.BuildCurrentFleet(currentFleet));
-               commander.CurrentObjectives = currentObjectives;
-               commander.PrepareForBattle();
-           }
+        public void OnPostSceneChange(PostSceneChangeArgs args)
+        {
+            Console.WriteLine("OnPostSCeneChange Called");
+            //if (currState == AISystemState.COMBAT)
+            //{
+            //    //commander.SetCurrentFleet(shipBuilder.BuildCurrentFleet(currentFleet));
+            //    commander.CurrentObjectives = currentObjectives;
+            //    commander.PrepareForBattle();
+            //}
 
-           if (currState == AISystemState.GALAXY_MAP)
-           {
-               if (prevState == AISystemState.COMBAT)
-               {
-                   general.ProcessBattleReport(lastBattleReport); 
-               }
-           }
+            //if (currState == AISystemState.GALAXY_MAP)
+            //{
+            //    if (prevState == AISystemState.COMBAT)
+            //    {
+            //        general.ProcessBattleReport(lastBattleReport);
+
+            //    }
+            //}
 
             /*
              * if currentScene == CombatScene
@@ -108,7 +139,43 @@ namespace AI_System_Workshop
              *      if prevScene == CombabtScene
              *          general->ProcessBattleReport
              *          
-             */ 
-       }
+             */
+
+            LoadData();
+            switch (args.CurrentScene)
+            {
+                case GameScene.MainMenu:
+                    break;
+                case GameScene.GalaxyMap:
+                    //when transitioning from combat to galaxy, the general has to process the battle report
+                    if(args.PreviousScene == GameScene.CombatScene)
+                    {
+                        general.ProcessBattleReport(lastBattleReport);
+                    }
+                    break;
+                case GameScene.CombatScene:
+                    //assuming transition from galaxy map since the player would only end up in a combat scenario from the galaxy map - may change
+                    commander.CurrentFleet = currentFleet
+                                                .Select(s => ShipBuilder.Instance.BuildShip(s) as AI_Unit)
+                                                .ToList();
+                    commander.CurrentObjectives = currentObjectives;
+                    commander.PrepareForBattle();
+
+                    break;
+                case GameScene.ShipDesignScene:
+                    break;
+                default:
+                    break;
+            }
+
+        }
+        void SaveData()
+        {
+
+        }
+        void LoadData()
+        {
+
+        }
     }
 }

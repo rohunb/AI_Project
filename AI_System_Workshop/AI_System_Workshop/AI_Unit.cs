@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    class AI_Unit
+    class AI_Unit : Unit
     {
         public enum Archetype { TANK, SUPPORT, SCOUT, SNIPER, SHOTGUN, DISABLER, BROADSIDER }
 

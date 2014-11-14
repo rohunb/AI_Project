@@ -72,6 +72,7 @@
     <Compile Include="GameController.cs" />
     <Compile Include="General.cs" />
     <Compile Include="Mission.cs" />
+    <Compile Include="MissionController.cs" />
     <Compile Include="MissionObjective.cs" />
     <Compile Include="MovementEventArgs.cs" />
     <Compile Include="MovementOrder.cs" />
@@ -82,6 +83,7 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShipBlueprint.cs" />
+    <Compile Include="ShipBuilder.cs" />
     <Compile Include="ShipDestructionEventArgs.cs" />
     <Compile Include="TurnBasedCombatSystem.cs" />
     <Compile Include="Unit.cs" />
