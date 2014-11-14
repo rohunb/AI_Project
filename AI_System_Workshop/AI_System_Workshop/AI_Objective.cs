@@ -8,9 +8,18 @@ namespace AI_System_Workshop
 {
     class AI_Objective
     {
+        static int numAI_Obj = 0;
+        private int ID;
         public AI_Objective()
         {
-            Console.WriteLine("AI_Objective created");
+            ID = ++numAI_Obj;
+            Console.WriteLine("AI_Objective " + ID + " created");
+        }
+
+        //DEBUG/TESTING
+        public string displayObjectiveInfo()
+        {
+            return "AI_Objective " + ID + ": default debug AI_=Objective";
         }
     }
 }

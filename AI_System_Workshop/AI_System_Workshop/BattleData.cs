@@ -56,6 +56,10 @@ namespace AI_System_Workshop
             damageTakenTable.Add(200.0f, unit2);
             attackVectorTable.Add(unit1, new Vector3(0.0f, 1.0f, 0.0f));
             attackVectorTable.Add(unit2, new Vector3(1.0f, 1.0f, 0.0f));
+            movements.Enqueue(new Vector3(26.4f, 94.7f,0.0f));
+            movements.Enqueue(new Vector3(67.8f, 109.3f, 0.0f));
+            orientations.Enqueue(45.0f);
+            orientations.Enqueue(-90.0f);
 
 
         }

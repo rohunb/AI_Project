@@ -14,7 +14,7 @@ namespace AI_System_Workshop
         public MissionObjective()
         {
             ID = ++numIUnits;
-            Console.WriteLine("MissionObjective Created with ID" + ID);
+            Console.WriteLine("MissionObjective " + ID + " Created");
         }
 
         public string displayObjectiveInfo()

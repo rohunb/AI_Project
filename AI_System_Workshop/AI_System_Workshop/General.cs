@@ -54,11 +54,12 @@ namespace AI_System_Workshop
             Console.WriteLine("AI objectives: ");
             foreach (AI_Objective objective in report.AI_objectives)
             {
-                Console.WriteLine(objective.ToString());
+                Console.WriteLine(objective.displayObjectiveInfo());
             }
             Console.WriteLine("BattleData table entries: ");
             foreach (KeyValuePair<Unit, BattleData> entry in report.battleDatatable)
             {
+                Console.WriteLine("------------------------------------------- - BD Start");
                 Console.WriteLine("Unit :" + entry.Key.getUnitID());
                 Console.WriteLine("BattleData: ");
                 /*
@@ -81,13 +82,43 @@ namespace AI_System_Workshop
                 {
                     Console.WriteLine(order.DisplayOderInfo());
                 }
-                Console.WriteLine("Damagedone table:");
 
+                Console.WriteLine("DamageDoneTable:");
                 foreach (KeyValuePair<float, Unit> damagePair in entry.Value.damageDoneTable)
                 {
-                   // Console.WriteLine(damagePair.Key + " damage done by Unit ID " + damagePair.Value.getUnitID());
+                    Console.WriteLine(damagePair.Key + " damage done by Unit ID " + damagePair.Value.getUnitID());
                 }
 
+                Console.WriteLine("DamageTakenTable:");
+                foreach (KeyValuePair<float, Unit> damagePair in entry.Value.damageTakenTable)
+                {
+                    Console.WriteLine(damagePair.Key + " damage taken by Unit ID " + damagePair.Value.getUnitID());
+                }
+
+
+                Console.WriteLine("SupportDoneTable:");
+                foreach (KeyValuePair<float, Unit> supportPair in entry.Value.supportDoneTable)
+                {
+                    Console.WriteLine(supportPair.Key + " support from Unit ID " + supportPair.Value.getUnitID());
+                }
+
+                Console.WriteLine("AttackVector:");
+                foreach (KeyValuePair<Unit, Vector3> atkVectorPair in entry.Value.attackVectorTable)
+                {
+                    Console.WriteLine(atkVectorPair.Key.getUnitID() + " attacked from vector " + atkVectorPair.Value.x + "," + atkVectorPair.Value.y + "," + atkVectorPair.Value.z);
+                }
+
+                foreach (Vector3 movement in entry.Value.movements)
+                {
+                    Console.WriteLine("Unit " + entry.Key.getUnitID() + " moved to position: " + movement.x + "," + movement.y + "," + movement.z);
+                }
+
+                foreach (float orientation in entry.Value.orientations)
+                {
+                    Console.WriteLine("Unit " + entry.Key.getUnitID() + " faced orientation: " + orientation);
+                }
+
+                Console.WriteLine("------------------------------------------- - BD End");
 
 
                 Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ - BR End");
