@@ -8,6 +8,7 @@ namespace AI_System_Workshop
 {
     class PlayerUnit
     {
+
         public PlayerUnit()
         {
             Console.WriteLine("PlayerUnit Created");

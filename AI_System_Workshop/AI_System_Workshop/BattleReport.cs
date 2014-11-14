@@ -35,6 +35,7 @@ namespace AI_System_Workshop
             playerObjectives.Add(new MissionObjective());
             AI_objectives.Add(new AI_Objective());
             battleDatatable.Add(new Unit(), new BattleData());
+            battleDatatable.Add(new Unit(), new BattleData());
         }
 
     }

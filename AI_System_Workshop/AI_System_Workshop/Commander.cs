@@ -9,6 +9,7 @@ namespace AI_System_Workshop
     class Commander
     {
         private Dictionary<PlayerUnit, AI_Unit.Archetype> playerShipArchetype_table;
+        private Dictionary<Unit, AI_Unit.Archetype> ShipArchetype_table;
         private List<BattleEventArgs> predictedEvents;
         private Dictionary<BattleEventArgs, Order> possibleEventResponse;
         private List<AI_Objective> currentObjectives;
@@ -27,11 +28,11 @@ namespace AI_System_Workshop
         {
             Console.WriteLine("Commander created");
             playerShipArchetype_table = new Dictionary<PlayerUnit, AI_Unit.Archetype>();
+            ShipArchetype_table = new Dictionary<Unit, AI_Unit.Archetype>();
             TurnBasedCombatSystem.Instance.OnStartTurnCycle += StartTurnCycle;
             TurnBasedCombatSystem.Instance.OnBattleEvent += BattleEvent;
 
-            //DEBUG
-            playerShipArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
+            
         }
 
         public void PrepareForBattle()
@@ -43,11 +44,16 @@ namespace AI_System_Workshop
              * 
              */
 
+            //DEBUG
+            playerShipArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
+            ShipArchetype_table.Add(new Unit(), AI_Unit.Archetype.SNIPER);
+
         }
         
-        private void DetermineArchetype(Unit unit)
+        private AI_Unit.Archetype DetermineArchetype(Unit unit)
         {
             Console.WriteLine("Commander: DetermineArchetype called");
+            return AI_Unit.Archetype.SNIPER;
         }
 
         void StartTurnCycle()

@@ -11,9 +11,18 @@ namespace AI_System_Workshop
     /// </summary>
     class ShipBlueprint
     {
+        AI_Unit.Archetype type;
         public ShipBlueprint()
         {
             Console.WriteLine("ShipBlueprint Created");
+            Console.WriteLine("This should hook into Unity's ShipBlueprint class");
+        }
+
+        public ShipBlueprint(AI_Unit.Archetype _archetype)
+        {
+            Console.WriteLine("ShipBlueprint Created");
+            type = _archetype;
+            Console.WriteLine("Type : " + type.ToString());
             Console.WriteLine("This should hook into Unity's ShipBlueprint class");
         }
     }
