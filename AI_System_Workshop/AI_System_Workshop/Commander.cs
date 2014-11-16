@@ -19,8 +19,8 @@ namespace AI_System_Workshop
         private Dictionary<Unit, AI_Unit.Archetype> ShipArchetype_table;
         private List<BattleEventArgs> predictedEvents;
         private Dictionary<BattleEventArgs, Order> possibleEventResponse;
-        private List<AI_Objective> currentObjectives;
-        public List<AI_Objective> CurrentObjectives
+        private SortedList<int, AI_Objective> currentObjectives;
+        public SortedList<int, AI_Objective> CurrentObjectives
         {
             get { return currentObjectives; }
             set

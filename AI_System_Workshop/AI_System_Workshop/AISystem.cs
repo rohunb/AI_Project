@@ -6,29 +6,21 @@ using System.Threading.Tasks;
 
 namespace AI_System_Workshop
 {
-    //testing purposes
-    //public enum AISystemState {GALAXY_MAP,COMBAT,NONE }
     class AISystem
     {
         private List<ShipBlueprint> currentFleet;
-        private List<AI_Objective> currentObjectives;
+        private SortedList<int, AI_Objective> currentObjectives;
         private BattleReport lastBattleReport;
 
         General general = new General();
         Commander commander = new Commander();
 
-        //for testing purposes
-        //public static AISystemState prevState = AISystemState.NONE;
-        //public static AISystemState currState = AISystemState.NONE;
-        //public static AISystemState nextState = AISystemState.NONE;
-
-        //testing purposes
         Mission m;
 
         public AISystem()
         {
             currentFleet = new List<ShipBlueprint>();
-            currentObjectives = new List<AI_Objective>();
+            currentObjectives = new SortedList<int, AI_Objective>();
             lastBattleReport = null;
 
             GameController.Instance.OnPreSceneChange+=OnPreSceneChange;

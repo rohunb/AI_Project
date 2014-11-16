@@ -32,7 +32,7 @@ namespace AI_System_Workshop
         /// <param name="mission"></param>
         /// <param name="aiObjectives"></param>
         /// <param name="currentFleet"></param>
-        public void GenerateObjectivesAndFleet(Mission mission, ref List<AI_Objective> aiObjectives, ref List<ShipBlueprint> currentFleet)
+        public void GenerateObjectivesAndFleet(Mission mission, ref SortedList<int, AI_Objective> aiObjectives, ref List<ShipBlueprint> currentFleet)
         {
             Console.WriteLine("General: GenerateObjectivesAndFleet called");
 
@@ -40,39 +40,39 @@ namespace AI_System_Workshop
             {
                 case Mission.MissionType.EXTERMINATE:
                     Console.WriteLine("Generating Objectives and Fleet for: Exterminate");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.DESTROY_SPACE_STATION:
                     Console.WriteLine("Generating Objectives and Fleet for: Destroy Space Station");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.DESTROY_PLAYER_STRUCTURE));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_STRUCTURE));
+                    aiObjectives.Add(2,new AI_Objective(AIObjectiveType.SUPPORT_STRUCTURE));
+                    aiObjectives.Add(3, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.DEFEND_SPACE_STATION:
                     Console.WriteLine("Generating Objectives and Fleet for: Defend Space Station");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.DEFEND_STRUCTURE));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.SUPPORT_STRUCTURE));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_STRUCTURE));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.ESCORT_SHIP:
                     Console.WriteLine("Generating Objectives and Fleet for: Escort Ship");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.DEFEND_ESCORTED_SHIP));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_ESCORTED_SHIP));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.ATTACK_PLANET:
                     Console.WriteLine("Generating Objectives and Fleet for: Attack Planet");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.DESTROY_PLAYER_PLANET));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_PLANET));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.SUPPORT_PLANET));
+                    aiObjectives.Add(3, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.DEFEND_PLANET:
                     Console.WriteLine("Generating Objectives and Fleet for: Defend Planet");
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.DEFEND_PLANET));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.SUPPORT_PLANET));
-                    aiObjectives.Add(new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_PLANET));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 default:
