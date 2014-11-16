@@ -79,7 +79,44 @@ namespace AI_System_Workshop
         //DEBUG/TESTING
         public string displayObjectiveInfo()
         {
-            return "AI_Objective " + ID + ": default debug AI_Objective";
+            string debugString = "";
+            switch (type)
+            {
+                case AIObjectiveType.NONE:
+                    debugString = " no objective";
+                    break;
+                case AIObjectiveType.DESTROY_PLAYER_ESCORTED_SHIP:
+                case AIObjectiveType.SUPPORT_ESCORTED_SHIP:
+                case AIObjectiveType.DEFEND_ESCORTED_SHIP:
+                    debugString = debugTypeAndTarget();
+                    break;
+                case AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS:
+                    debugString = " Type: " + type.ToString() + " target: all enemy ships";
+                    break;
+                case AIObjectiveType.DEFEND_STRUCTURE:
+                case AIObjectiveType.SUPPORT_STRUCTURE:
+                case AIObjectiveType.DESTROY_PLAYER_STRUCTURE:
+                case AIObjectiveType.DESTROY_PLAYER_PLANET:
+                case AIObjectiveType.DEFEND_PLANET:
+                case AIObjectiveType.SUPPORT_PLANET:
+                    debugString = debugTypeAndPosition();
+                    break;
+                default:
+                    break;
+            }
+            return debugString;
+        }
+
+        //DEBUG
+        private string debugTypeAndTarget()
+        {
+            return " Type: " + type.ToString() + " target: " + unit.ToString();
+        }
+
+        //DEBUG
+        private string debugTypeAndPosition()
+        {
+            return " Type: " + type.ToString() + " position: " + position.x + "," + position.y + "," + position.z;
         }
 
         private void assignID()

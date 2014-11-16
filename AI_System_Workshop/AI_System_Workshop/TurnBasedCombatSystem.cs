@@ -49,7 +49,7 @@ namespace AI_System_Workshop
         public void EventsTester()
         {
             OnStartTurnCycle();
-            OnBattleEvent(null);
+            OnBattleEvent(new BattleEventArgs());
         }
 
     }

@@ -39,7 +39,9 @@ namespace AI_System_Workshop
 
             //testAISystem.OnPostSceneChange();
 
+            BattleRecorder br = new BattleRecorder();
 
+            TurnBasedCombatSystem.Instance.EventsTester();
 
             //default scene is MainMenu
             GameController.Instance.ChangeScene(GameScene.GalaxyMap); //we should not see a lot of AI processing being called here

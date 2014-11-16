@@ -53,6 +53,7 @@ namespace AI_System_Workshop
             //DEBUG
             playerShipArchetype_table.Add(new PlayerUnit(), AI_Unit.Archetype.SHOTGUN);
             ShipArchetype_table.Add(new Unit(), AI_Unit.Archetype.SNIPER);
+            debugDisplayObjectiveInfo();
 
         }
 
@@ -69,6 +70,7 @@ namespace AI_System_Workshop
         void BattleEvent(BattleEventArgs battleEventArgs)
         {
             Console.WriteLine("Commander: Battle Event called");
+            
         }
 
         void LookAhead()
@@ -85,6 +87,16 @@ namespace AI_System_Workshop
         {
             Console.WriteLine("Commander: GetBattleReport called");
             return new BattleReport();
+        }
+
+        private void debugDisplayObjectiveInfo()
+        {
+            Console.WriteLine("Commander: Displaying Objectives");
+            foreach (KeyValuePair<int, AI_Objective> objective in currentObjectives)
+            {
+                Console.WriteLine(objective.Key + " : " + objective.Value.displayObjectiveInfo() );
+            }
+
         }
     }
 }

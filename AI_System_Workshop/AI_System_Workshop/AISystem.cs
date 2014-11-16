@@ -15,8 +15,6 @@ namespace AI_System_Workshop
         General general = new General();
         Commander commander = new Commander();
 
-        Mission m;
-
         public AISystem()
         {
             currentFleet = new List<ShipBlueprint>();
@@ -25,39 +23,12 @@ namespace AI_System_Workshop
 
             GameController.Instance.OnPreSceneChange+=OnPreSceneChange;
             GameController.Instance.OnPostSceneChange += OnPostSceneChange;
-
-            //testing purposes
-            //m = new Mission();
         }
 
         public void OnPreSceneChange(PreSceneChangeArgs args)
         {
+            //DEBUG
             Console.WriteLine("OnPreSceneChange Called");
-            //if (currState == AISystemState.GALAXY_MAP)
-            //{
-            //    if (nextState == AISystemState.COMBAT)
-            //    {
-            //        prevState = currState;
-            //        currState = nextState;
-
-            //        //persist objectives and fleet
-            //        general.GenerateObjectivesAndFleet(m, ref currentObjectives, ref currentFleet);
-
-            //    }
-            //}
-
-            //if (currState == AISystemState.COMBAT)
-            //{
-            //    if (nextState == AISystemState.GALAXY_MAP)
-            //    {
-            //        prevState = currState;
-            //        currState = nextState;
-
-            //        //persist battleReport
-            //        lastBattleReport = commander.GetBattleReport();
-
-            //    }
-            //}
             /*
              * if currentScene == GalaxyMap
              *       if nextScene == CombatScene
@@ -103,21 +74,6 @@ namespace AI_System_Workshop
         public void OnPostSceneChange(PostSceneChangeArgs args)
         {
             Console.WriteLine("OnPostSCeneChange Called");
-            //if (currState == AISystemState.COMBAT)
-            //{
-            //    //commander.SetCurrentFleet(shipBuilder.BuildCurrentFleet(currentFleet));
-            //    commander.CurrentObjectives = currentObjectives;
-            //    commander.PrepareForBattle();
-            //}
-
-            //if (currState == AISystemState.GALAXY_MAP)
-            //{
-            //    if (prevState == AISystemState.COMBAT)
-            //    {
-            //        general.ProcessBattleReport(lastBattleReport);
-
-            //    }
-            //}
 
             /*
              * if currentScene == CombatScene

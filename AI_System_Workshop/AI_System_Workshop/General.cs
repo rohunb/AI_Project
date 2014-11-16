@@ -17,6 +17,7 @@ namespace AI_System_Workshop
             Console.WriteLine("General Created");
 
             availableShips = new List<ShipBlueprint>();
+            battleHistory = new Queue<BattleReport>();
 
             //DEBUG
             availableShips.Add(new ShipBlueprint(AI_Unit.Archetype.SCOUT));
@@ -45,33 +46,33 @@ namespace AI_System_Workshop
                     break;
                 case Mission.MissionType.DESTROY_SPACE_STATION:
                     Console.WriteLine("Generating Objectives and Fleet for: Destroy Space Station");
-                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_STRUCTURE));
-                    aiObjectives.Add(2,new AI_Objective(AIObjectiveType.SUPPORT_STRUCTURE));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_STRUCTURE, new Vector3(10.0f,30.0f,0.0f)));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.SUPPORT_STRUCTURE, new Vector3(10.0f, 30.0f, 0.0f)));
                     aiObjectives.Add(3, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.DEFEND_SPACE_STATION:
                     Console.WriteLine("Generating Objectives and Fleet for: Defend Space Station");
-                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_STRUCTURE));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_STRUCTURE, new Vector3(30.0f, 3.0f, 0.0f)));
                     aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.ESCORT_SHIP:
                     Console.WriteLine("Generating Objectives and Fleet for: Escort Ship");
-                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_ESCORTED_SHIP));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_ESCORTED_SHIP, new Unit()));
                     aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.ATTACK_PLANET:
                     Console.WriteLine("Generating Objectives and Fleet for: Attack Planet");
-                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_PLANET));
-                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.SUPPORT_PLANET));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DEFEND_PLANET, new Vector3(5.0f, 15.0f, 0.0f)));
+                    aiObjectives.Add(2, new AI_Objective(AIObjectiveType.SUPPORT_PLANET, new Vector3(5.0f, 15.0f, 0.0f)));
                     aiObjectives.Add(3, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
                 case Mission.MissionType.DEFEND_PLANET:
                     Console.WriteLine("Generating Objectives and Fleet for: Defend Planet");
-                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_PLANET));
+                    aiObjectives.Add(1, new AI_Objective(AIObjectiveType.DESTROY_PLAYER_PLANET, new Vector3(90.0f, 9.0f, 0.0f)));
                     aiObjectives.Add(2, new AI_Objective(AIObjectiveType.ELIMINATE_ALL_PLAYER_SHIPS));
                     currentFleet = availableShips;
                     break;
@@ -81,11 +82,8 @@ namespace AI_System_Workshop
 
         }
 
-        /// <summary>
-        /// Calculates and makes changes to fleet composition and strategy based on results of the battle
-        /// </summary>
-        /// <param name="report"></param>
-        public void ProcessBattleReport(BattleReport report)
+        //DEBUG
+        private void debugDisplayBattleReport(BattleReport report)
         {
             Console.WriteLine("General: ProcessBattleReport called");
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ - BR Start");
@@ -93,10 +91,12 @@ namespace AI_System_Workshop
             Console.WriteLine("engagement won?: " + report.wonEngagement);
             Console.WriteLine("engagement duration?: " + report.battleDuration);
             Console.WriteLine("Player objectives: ");
+
             foreach (MissionObjective objective in report.playerObjectives)
             {
                 Console.WriteLine(objective.displayObjectiveInfo());
             }
+
             Console.WriteLine("AI objectives: ");
             foreach (AI_Objective objective in report.AI_objectives)
             {
@@ -108,22 +108,9 @@ namespace AI_System_Workshop
                 Console.WriteLine("------------------------------------------- - BD Start");
                 Console.WriteLine("Unit :" + entry.Key.getUnitID());
                 Console.WriteLine("BattleData: ");
-                /*
-                            //damageDone //target
-                public Dictionary<float, Unit> damageDoneTable;
-                            //supportDone //target 
-                public Dictionary<float, Unit> supportDoneTable;
-                            //damageTaken //damager
-                public Dictionary<float, Unit> damageTakenTable;
-                            //damager //attackVector
-                public Dictionary<Unit, Vector3> attackVectorTable;
-                        //position
-                public Queue<Vector3> movements;
-                        //angle
-                public Queue<float> orientations;
-                 */
                 Console.WriteLine("Unit Lifetime: " + entry.Value.unitLifetime);
                 Console.WriteLine("Orders: ");
+
                 foreach (Order order in entry.Value.orders)
                 {
                     Console.WriteLine(order.DisplayOderInfo());
@@ -168,7 +155,20 @@ namespace AI_System_Workshop
 
             }
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ - BR End");
-            
+        }
+
+        /// <summary>
+        /// Calculates and makes changes to fleet composition and strategy based on results of the battle
+        /// </summary>
+        /// <param name="report"></param>
+        public void ProcessBattleReport(BattleReport report)
+        {
+            //DEBUG
+            debugDisplayBattleReport(report);
+
+            availableShips.Add(new ShipBlueprint(AI_Unit.Archetype.BROADSIDER));
+
+            battleHistory.Enqueue(report);
         }
 
     }

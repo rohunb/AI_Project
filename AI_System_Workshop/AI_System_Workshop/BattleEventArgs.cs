@@ -21,6 +21,9 @@ namespace AI_System_Workshop
         public BattleEventArgs()
         {
             Console.WriteLine("BattleEvent created");
+
+            //DEBUG/TESTING
+            battleEventType = EventType.DAMAGE;
         }
     }
 }

@@ -22,7 +22,8 @@ namespace AI_System_Workshop
 
         private void OnBattleEvent(BattleEventArgs battleEventArgs)
         {
-            Console.WriteLine("BattleRecorder: BattleEvent");
+            Console.WriteLine("BattleRecorder: a BattleEvent was registered");
+            Console.WriteLine("Its type is: " + battleEventArgs.BattleEventType.ToString());
         }
         private void OnStartTurnCycle()
         {

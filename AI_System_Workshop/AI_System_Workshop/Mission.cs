@@ -9,7 +9,7 @@ namespace AI_System_Workshop
     class Mission
     {
         public enum MissionType { EXTERMINATE, DESTROY_SPACE_STATION, DEFEND_SPACE_STATION, ESCORT_SHIP, ATTACK_PLANET, DEFEND_PLANET }
-        public MissionType missionType = MissionType.EXTERMINATE;
+        public MissionType missionType = MissionType.DESTROY_SPACE_STATION;
 
         public Mission()
         {
