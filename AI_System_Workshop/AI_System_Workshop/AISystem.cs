@@ -21,7 +21,7 @@ namespace AI_System_Workshop
             currentObjectives = new SortedList<int, AI_Objective>();
             lastBattleReport = null;
 
-            GameController.Instance.OnPreSceneChange+=OnPreSceneChange;
+            GameController.Instance.OnPreSceneChange += OnPreSceneChange;
             GameController.Instance.OnPostSceneChange += OnPostSceneChange;
         }
 

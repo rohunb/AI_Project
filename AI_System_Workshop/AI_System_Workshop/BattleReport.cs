@@ -23,7 +23,7 @@ namespace AI_System_Workshop
             battleDatatable = new Dictionary<Unit, BattleData>();
 
            // DEBUG/TESTING
-            SetupTestReport();
+            //SetupTestReport();
         }
 
         // DEBUG/TESTING
