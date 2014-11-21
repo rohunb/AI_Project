@@ -19,6 +19,8 @@ namespace AI_System_Workshop
             //DEBUG
             Console.WriteLine("BattleRecorder created");
 
+            eventLog = new Queue<BattleEventArgs>();
+
             TurnBasedCombatSystem.Instance.OnBattleEvent+=OnBattleEvent;
         }
 

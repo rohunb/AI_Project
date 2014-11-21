@@ -22,6 +22,8 @@ namespace GeneticAlgorithm
             set { testGenetics = value; }
         }
 
+        const int GENOME_LENGTH = 11;
+
         public void RandomizeGenome()
         {
             testGenetics.RemoveRange(0, 1);
@@ -32,6 +34,11 @@ namespace GeneticAlgorithm
         public Chromosome()
         {
             testGenetics.Add(Path.GetRandomFileName().Replace(".", ""));
+        }
+
+        public Chromosome(string _newGeneticInfo)
+        {
+            testGenetics.Add(_newGeneticInfo.Substring(0,GENOME_LENGTH));
         }
     }
 }
