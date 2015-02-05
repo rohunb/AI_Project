@@ -60,7 +60,6 @@ namespace AI_System_Workshop
         private AI_Unit.Archetype DetermineArchetype(Unit unit)
         {
             Console.WriteLine("Commander: DetermineArchetype called");
-            
             return AI_Unit.Archetype.SNIPER;
         }
 
@@ -87,10 +86,7 @@ namespace AI_System_Workshop
         public BattleReport GetBattleReport()
         {
             Console.WriteLine("Commander: GetBattleReport called");
-            
             return new BattleReport();
-
-            //TODO: Generate a non-blank battlereport
         }
 
         private void debugDisplayObjectiveInfo()
@@ -100,6 +96,7 @@ namespace AI_System_Workshop
             {
                 Console.WriteLine(objective.Key + " : " + objective.Value.displayObjectiveInfo() );
             }
+
         }
     }
 }

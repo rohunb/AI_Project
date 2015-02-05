@@ -8,27 +8,6 @@ namespace AI_System_Workshop
 {
     class MockBattle
     {
-        public MockBattle()
-        {
-            SetupMockBattle();
-        }
-
-        private void SetupMockBattle()
-        {
-            Console.WriteLine("MockBattle Created...");
-            AI_Fleet = new List<Ship>();
-            PlayerFleet = new List<Ship>();
-            NumIterations = 0;
-            RecordedEvents = new List<BattleEventArgs>();
-            CurrentChallanges = new List<Challange>();
-        }
-
-        public void startBattle(List<Challange> _currentChallanges)
-        {
-            CurrentChallanges = _currentChallanges;
-
-        }
-
         private List<Ship> ai_Fleet;
         public List<Ship> AI_Fleet
         {
