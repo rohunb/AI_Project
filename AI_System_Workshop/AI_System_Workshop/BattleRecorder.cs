@@ -50,7 +50,7 @@ namespace AI_System_Workshop
 
 
 
-            return new BattleReport();
+            return battleReport;
         }
 
         
