@@ -36,8 +36,7 @@ namespace AI_Fleet
                 {
                     if (alleles[i].Placement == _gene.Placement && alleles[i].Type == _gene.Type)
                     {
-                        alleles[i].Count += _gene.Count;
-                        alleles[i].ComponentAbilityStat += _gene.ComponentAbilityStat;
+                        alleles[i].ChangeCount(_gene.Count + 1);
                         return;
                     }
                     else
@@ -70,8 +69,7 @@ namespace AI_Fleet
                 }
                 else
                 {
-                    _gene.Count--;
-                    _gene.ComponentAbilityStat = _gene.Count * 100;
+                    _gene.ChangeCount(_gene.Count - 1);
 
                     if (_gene.Count <= 0)
                     {
@@ -102,12 +100,27 @@ namespace AI_Fleet
 
         public void DebugDisplay()
         {
+            float t_activationCost = 0;
+            float t_powerDrain = 0;
+            float t_damage = 0;
+            float t_hullDamagePercent = 0;
+            float t_maxHP = 0;
+            float t_shieldStrength = 0;
+
             Console.WriteLine("Chromosome " + ID + " has " + alleles.Count +  " genes");
             Console.WriteLine("~~~~~~~~~~~~~~~~~");
             foreach (Gene gene in alleles)
             {
                 gene.DebugDisplay();
+
+                t_activationCost += gene.ActivationCost;
+                t_powerDrain += gene.PowerDrain;
+                t_damage += gene.Damage;
+                t_hullDamagePercent += gene.HullDamagePercent;
+                t_maxHP += gene.MaxHP;
+                t_shieldStrength += gene.ShieldStrength;
             }
+            Console.WriteLine("{Total dmg " + t_damage + ": ac " + t_activationCost + ": powdr " + t_powerDrain + ": hp " + t_maxHP + ": shield " + t_shieldStrength + "}");
             Console.WriteLine("~~~~~~~~~~~~~~~~~~~~");
             Console.WriteLine();
         }
