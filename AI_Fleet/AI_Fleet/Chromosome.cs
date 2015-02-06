@@ -43,13 +43,13 @@ namespace AI_Fleet
                 {
                     if (alleles[i].Placement == _gene.Placement && alleles[i].Type == _gene.Type)
                     {
-                        alleles[i].ChangeCount(_gene.Count + 1);
-                        return;
+                        alleles[i].ChangeCount(alleles[i].Count + _gene.Count);
+                        break;
                     }
                     else
                     {
                         alleles.Add(_gene);
-                        return;
+                        break;
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace AI_Fleet
                         currentPowerDrain += gene.PowerDrain;
                     }
 
-                    if (currentPowerDrain + _gene.PowerDrain <= 0)
+                    if (currentPowerDrain + _gene.PowerDrain < -100)
                     {
                         addOrAppend(_gene, ref _remainingSlots);
                         _remainingSlots.setSlot(_gene.Placement, (_remainingSlots.getSlot(_gene.Placement) - _gene.Count));
@@ -84,9 +84,8 @@ namespace AI_Fleet
                     }
                     else
                     {
-                        _gene = new Gene(GeneType.POWERPLANT, RandomManager.rollDwhatever(3), _gene.Placement);
+                        _gene = new Gene(GeneType.POWERPLANT, RandomManager.randomInt(1,3), _gene.Placement);
                     }
-
                 }
                 else
                 {

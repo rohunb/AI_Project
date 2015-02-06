@@ -211,7 +211,7 @@ namespace AI_Fleet
                     //power 8
                 case GeneType.POWERPLANT:
                     activationCost = 0;
-                    powerDrain = -100;
+                    powerDrain = -200;
                     maxHP = 100;
                     break;
 
@@ -259,12 +259,12 @@ namespace AI_Fleet
 
         public void DebugDisplay()
         {
-            Console.WriteLine("Gene " + ID + " (type" + type + ") [count " + count + "] |placement " + placement + "| \n{Stats dmg " + m_damage + ": ac " + m_activationCost + ": powdr " + m_powerDrain + ": hp " + m_maxHP + ": shield " + m_shieldStrength + "}");
+            Console.WriteLine("Gene " + ID + " (type " + type + ") [count " + count + "] |placement " + placement + "|");
         }
 
         public void DebugDisplayVerbose()
         {
-            Console.WriteLine("Gene " + ID + "\n(type" + type + ")\n[count " + count + "]\n");
+            Console.WriteLine("Gene " + ID + "\n(type " + type + ")\n[count " + count + "]\n{Stats dmg " + m_damage + ": ac " + m_activationCost + ": powdr " + m_powerDrain + ": hp " + m_maxHP + ": shield " + m_shieldStrength + "}");
         }
     }
 }

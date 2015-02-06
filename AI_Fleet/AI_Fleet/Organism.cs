@@ -120,29 +120,6 @@ namespace AI_Fleet
         private int NumGenesByHull(OrganismHull _hull)
         {
             int numberOfGenes = 0;
-            /*
-            switch (_hull)
-            {
-                case OrganismHull.CORVETTE:
-                    // 5 - 10 Genes
-                    numberOfGenes = RandomManager.randomInt(30,50);
-                    break;
-                case OrganismHull.FRIGATE:
-                    // 7 - 14 Genes
-                    numberOfGenes = RandomManager.randomInt(20, 30);
-                    break;
-                case OrganismHull.CRUISER:
-                    //9 - 18 Genes
-                    numberOfGenes = RandomManager.randomInt(20, 30);
-                    break;
-                case OrganismHull.BATTLESHIP:
-                    //12 - 23 Genes
-                    numberOfGenes = RandomManager.randomInt(20, 30);
-                    break;
-                default:
-                    break;
-            }
-            */
             numberOfGenes = RandomManager.randomInt(30, 50);
             return numberOfGenes;
         }
