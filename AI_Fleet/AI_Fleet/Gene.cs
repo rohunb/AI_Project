@@ -46,21 +46,22 @@ namespace AI_Fleet
         {
             //11 GeneTypes
             int geneType = RandomManager.rollDwhatever(11);
+            //4 placements
             int placementType = RandomManager.rollDwhatever(4);
 
             switch (_hull)
             {
                 case OrganismHull.CORVETTE:
-                    count = RandomManager.randomInt(1, 7);
+                    count = RandomManager.randomInt(4,9);
                     break;
                 case OrganismHull.FRIGATE:
-                    count = RandomManager.randomInt(1, 9);
+                    count = RandomManager.randomInt(4,9);
                     break;
                 case OrganismHull.CRUISER:
-                    count = RandomManager.randomInt(1,16);
+                    count = RandomManager.randomInt(9,16);
                     break;
                 case OrganismHull.BATTLESHIP:
-                    count = RandomManager.randomInt(1, 27);
+                    count = RandomManager.randomInt(15,27);
                     break;
                 default:
                     break;

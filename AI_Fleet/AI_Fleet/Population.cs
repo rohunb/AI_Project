@@ -17,7 +17,7 @@ namespace AI_Fleet
 
         public Population()
         {
-            initPopulation(RandomManager.randomInt(6, 12));
+            initPopulation(RandomManager.randomInt(5, 9));
         }
 
         public Population(int _populaiton)

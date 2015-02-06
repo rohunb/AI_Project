@@ -6,15 +6,68 @@ using System.Threading.Tasks;
 
 namespace AI_Fleet
 {
-    public enum OrganismHull {CORVETTE, FRIGATE, CRUISER, BATTLESHIP, COUNT}
-    public enum OrganismArchetype {SNIPER, TANK, SUPPORT, DPS, COUNT}
+    public enum OrganismHull { CORVETTE, FRIGATE, CRUISER, BATTLESHIP, COUNT }
+    public enum OrganismArchetype { SNIPER, TANK, SUPPORT, DPS, COUNT }
 
     struct SlotsPerSection
     {
-        public int forward;
-        public int aft;
-        public int port;
-        public int starboard;
+        private int forward;
+        private int aft;
+        private int port;
+        private int starboard;
+
+        public void setSlots(SlotsPerSection _slots)
+        {
+            forward = _slots.forward;
+            aft = _slots.aft;
+            port = _slots.port;
+            starboard = _slots.starboard;
+        }
+
+        public void setSlot(PlacementType _placement, int _value)
+        {
+            switch (_placement)
+            {
+                case PlacementType.FORWARD:
+                    forward = _value;
+                    break;
+                case PlacementType.AFT:
+                    aft = _value;
+                    break;
+                case PlacementType.PORT:
+                    port = _value;
+                    break;
+                case PlacementType.STARBOARD:
+                    starboard = _value;
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public int getSlot(PlacementType _placement)
+        {
+            int slots = 0;
+            switch (_placement)
+            {
+                case PlacementType.FORWARD:
+                    slots = forward;
+                    break;
+                case PlacementType.AFT:
+                    slots = aft;
+                    break;
+                case PlacementType.PORT:
+                    slots = port;
+                    break;
+                case PlacementType.STARBOARD:
+                    slots = starboard;
+                    break;
+                default:
+                    break;
+            }
+
+            return slots;
+        }
     }
 
     class Organism
@@ -50,131 +103,76 @@ namespace AI_Fleet
             set { archetype = value; }
         }
 
-        public Organism()
+        private int NumGenesByHull(OrganismHull _hull)
         {
-            initOrganism();
-            //assign a completely random genome
-            hull = (OrganismHull)(RandomManager.rollDwhatever((int)OrganismHull.COUNT));
-            archetype = (OrganismArchetype)(RandomManager.rollDwhatever((int)OrganismArchetype.COUNT));
-            Console.Write(hull + "  \t");
-            Console.WriteLine(archetype);
-            genome = new List<Chromosome>();
-            SlotsPerSection remainingSlots = slots;
-            int numGenes = 0;
-
-            switch (hull)
+            int numberOfGenes = 0;
+            /*
+            switch (_hull)
             {
                 case OrganismHull.CORVETTE:
                     // 5 - 10 Genes
-                    numGenes = RandomManager.randomInt(31,31);
+                    numberOfGenes = RandomManager.randomInt(30,50);
                     break;
                 case OrganismHull.FRIGATE:
                     // 7 - 14 Genes
-                    numGenes = RandomManager.randomInt(48,48);
+                    numberOfGenes = RandomManager.randomInt(20, 30);
                     break;
                 case OrganismHull.CRUISER:
                     //9 - 18 Genes
-                    numGenes = RandomManager.randomInt(70, 70);
+                    numberOfGenes = RandomManager.randomInt(20, 30);
                     break;
                 case OrganismHull.BATTLESHIP:
                     //12 - 23 Genes
-                    numGenes = RandomManager.randomInt(91, 91);
+                    numberOfGenes = RandomManager.randomInt(20, 30);
                     break;
                 default:
                     break;
             }
-            Gene gene;
-
-            for (int i = 0; i < 5; i++)
-            {
-                genome.Add(new Chromosome());
-                genome[i].Alleles = new List<Gene>();
-
-                int numTries;
-                bool found;
-
-                for (int j = 0; j < numGenes; j++)
-                {
-                    numTries = 0;
-                    found = false;
-                    remainingSlots = slots;
-                    do
-                    {
-                        gene = new Gene(hull);
-
-                        switch (gene.Placement)
-                        {
-                            case PlacementType.FORWARD:
-                                if (gene.Count < remainingSlots.forward)
-                                {
-                                    found = true;
-                                    remainingSlots.forward -= gene.Count;
-                                }
-                                break;
-                            case PlacementType.AFT:
-                                if (gene.Count < remainingSlots.aft)
-                                {
-                                    found = true;
-                                    remainingSlots.aft -= gene.Count;
-                                }
-                                break;
-                            case PlacementType.PORT:
-                                if (gene.Count < remainingSlots.port)
-                                {
-                                    found = true;
-                                    remainingSlots.port -= gene.Count;
-                                }
-                                break;
-                            case PlacementType.STARBOARD:
-                                if (gene.Count < remainingSlots.starboard)
-                                {
-                                    found = true;
-                                    remainingSlots.starboard -= gene.Count;
-                                }
-                                break;
-                            default:
-                                Console.WriteLine("Shouldnt get here. Organism.cs->Constructor->switch(Placement)->default:");
-                                break;
-                        }
-                        numTries++;
-
-                    } while (!found && numTries > 100);
-
-                    if (found)
-                    {
-                        bool addNew = false;
-
-                        if (genome[i].Alleles.Count > 0)
-                        {
-                            for (int k = 0; k < genome[i].Alleles.Count; k++)
-                            {
-                                if (genome[i].Alleles[k].Type == gene.Type && genome[i].Alleles[k].Placement == gene.Placement)
-                                {
-                                    genome[i].Alleles[k].Count += gene.Count;
-                                    genome[i].Alleles[k].ComponentAbilityStat += gene.ComponentAbilityStat;
-                                }
-                                else
-                                {
-                                    addNew = true;
-                                    break;
-                                } 
-                            }
-
-                            if (addNew)
-                            {
-                                genome[i].Alleles.Add(gene);
-                            } 
-                        }
-                        else
-                        {
-                            genome[i].Alleles.Add(gene);
-                        }
-                    }
-                }
-            }
+            */
+            numberOfGenes = RandomManager.randomInt(30, 50);
+            return numberOfGenes;
         }
 
+        private List<Chromosome> GenerateChromosomes(int _variation)
+        {
+            List<Chromosome> chromosomes = new List<Chromosome>();
+            for (int i = 0; i < _variation; i++)
+            {
+                chromosomes.Add(new Chromosome());
+                chromosomes[i].Alleles = new List<Gene>();
+            }
+            return chromosomes;
+        }
 
+        private Chromosome PopulateChromosome(Chromosome _chromosome, int _numGenes, ref SlotsPerSection _remainingSlots)
+        {
+            for (int i = 0; i < _numGenes; i++)
+            {
+                _chromosome.willItFit(new Gene(hull), ref _remainingSlots);
+            }
+            return _chromosome;
+        }
+
+        public Organism()
+        {
+            
+            //assign a completely random genome
+            hull = (OrganismHull)(RandomManager.rollDwhatever((int)OrganismHull.COUNT));
+            archetype = (OrganismArchetype)(RandomManager.rollDwhatever((int)OrganismArchetype.COUNT));
+            genome = new List<Chromosome>();
+
+            initOrganism();
+            SlotsPerSection remainingSlots = slots;
+            
+            int numGenes = NumGenesByHull(hull);
+            genome = GenerateChromosomes(2);
+
+            foreach (Chromosome chromosome in genome)
+            {
+                remainingSlots.setSlots(slots);
+                PopulateChromosome(chromosome, numGenes, ref remainingSlots);
+            }
+        }
 
         public Organism(List<Chromosome> _genome, OrganismHull _hull = OrganismHull.CORVETTE, OrganismArchetype _archetype = OrganismArchetype.SNIPER)
         {
@@ -200,28 +198,28 @@ namespace AI_Fleet
             switch (hull)
             {
                 case OrganismHull.CORVETTE:
-                    slots.forward = 9;
-                    slots.aft = 9;
-                    slots.port = 7;
-                    slots.starboard = 6;
+                    slots.setSlot(PlacementType.FORWARD, 9);
+                    slots.setSlot(PlacementType.AFT, 9);
+                    slots.setSlot(PlacementType.PORT, 7);
+                    slots.setSlot(PlacementType.STARBOARD, 6);
                     break;
                 case OrganismHull.FRIGATE:
-                    slots.forward = 9;
-                    slots.aft = 11;
-                    slots.port =14;
-                    slots.starboard =14;
+                    slots.setSlot(PlacementType.FORWARD, 9);
+                    slots.setSlot(PlacementType.AFT, 11);
+                    slots.setSlot(PlacementType.PORT, 14);
+                    slots.setSlot(PlacementType.STARBOARD, 14);
                     break;
                 case OrganismHull.CRUISER:
-                    slots.forward = 21;
-                    slots.aft = 21;
-                    slots.port = 14;
-                    slots.starboard = 14;
+                    slots.setSlot(PlacementType.FORWARD, 21);
+                    slots.setSlot(PlacementType.AFT, 21);
+                    slots.setSlot(PlacementType.PORT, 14);
+                    slots.setSlot(PlacementType.STARBOARD, 14);
                     break;
                 case OrganismHull.BATTLESHIP:
-                    slots.forward = 27;
-                    slots.aft = 28;
-                    slots.port = 18;
-                    slots.starboard = 18;
+                    slots.setSlot(PlacementType.FORWARD, 27);
+                    slots.setSlot(PlacementType.AFT, 28);
+                    slots.setSlot(PlacementType.PORT, 18);
+                    slots.setSlot(PlacementType.STARBOARD, 18);
                     break;
                 default:
                     break;
@@ -238,12 +236,12 @@ namespace AI_Fleet
             Console.WriteLine("Organism ID: " + ID + " hull: " + hull + " archetype: " + archetype);
             Console.WriteLine("____________________________________________________________________");
             foreach (Chromosome chromosome in genome)
-	        {
+            {
                 chromosome.DebugDisplay();
-	        }
+            }
             Console.WriteLine("____________________________________________________________________");
         }
 
-        
+
     }
 }

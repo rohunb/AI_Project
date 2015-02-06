@@ -28,6 +28,60 @@ namespace AI_Fleet
             initChromosome(_gene);
         }
 
+        private void addOrAppend(Gene _gene)
+        {
+            if (alleles.Count > 0)
+            {
+                for (int i = 0; i < alleles.Count; i++)
+                {
+                    if (alleles[i].Placement == _gene.Placement && alleles[i].Type == _gene.Type)
+                    {
+                        alleles[i].Count += _gene.Count;
+                        alleles[i].ComponentAbilityStat += _gene.ComponentAbilityStat;
+                        return;
+                    }
+                    else
+                    {
+                        alleles.Add(_gene);
+                        return;
+                    }
+                }
+            }
+            else
+            {
+                alleles.Add(_gene);
+            }
+        }
+
+        public bool willItFit(Gene _gene, ref SlotsPerSection _remainingSlots)
+        {
+            bool placed = false;
+           
+            while (!placed)
+            {
+                if (_gene.Count <= _remainingSlots.getSlot(_gene.Placement))
+                {
+
+                    //alleles.Add(_gene);
+                    addOrAppend(_gene);
+                    _remainingSlots.setSlot(_gene.Placement, (_remainingSlots.getSlot(_gene.Placement) - _gene.Count));
+                    placed = true;
+                    return true;
+                }
+                else
+                {
+                    _gene.Count--;
+                    _gene.ComponentAbilityStat = _gene.Count * 100;
+
+                    if (_gene.Count <= 0)
+                    {
+                        return false;
+                    }
+                }
+            }
+            return false;
+        }
+
         public Chromosome(List<Gene> _alleles)
         {
             initChromosome(_alleles);
