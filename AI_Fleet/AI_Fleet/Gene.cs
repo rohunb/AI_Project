@@ -113,10 +113,6 @@ namespace AI_Fleet
             }
 
             initGene((GeneType)(geneType), count, (PlacementType)(placementType));
-
-            setStats();//do this after type is set in initGene or else everything is a laser
-
-            ChangeCount(count);
         }
 
         public void ChangeCount(int _newCount)
@@ -250,6 +246,10 @@ namespace AI_Fleet
             placement = _palcement;
 
             IncrementGeneCounter();
+
+            setStats();//do this after type is set in initGene or else everything is a laser
+
+            ChangeCount(count);
         }
 
         private void IncrementGeneCounter()

@@ -18,6 +18,13 @@ namespace AI_Fleet
        static int numChromosomes = 0;
        public int ID;
 
+       private float currentPowerDrain;
+       public float CurrentPowerDrain
+       {
+           get { return currentPowerDrain; }
+           set { currentPowerDrain = value; }
+       }
+
         public Chromosome()
         {
             incrementIDs();
@@ -28,7 +35,7 @@ namespace AI_Fleet
             initChromosome(_gene);
         }
 
-        private void addOrAppend(Gene _gene)
+        private void addOrAppend(Gene _gene, ref SlotsPerSection _remainingSlots)
         {
             if (alleles.Count > 0)
             {
@@ -60,12 +67,26 @@ namespace AI_Fleet
             {
                 if (_gene.Count <= _remainingSlots.getSlot(_gene.Placement))
                 {
+                    currentPowerDrain = 0;
 
-                    //alleles.Add(_gene);
-                    addOrAppend(_gene);
-                    _remainingSlots.setSlot(_gene.Placement, (_remainingSlots.getSlot(_gene.Placement) - _gene.Count));
-                    placed = true;
-                    return true;
+                    foreach (Gene gene in Alleles)
+                    {
+                        currentPowerDrain += gene.PowerDrain;
+                    }
+
+                    if (currentPowerDrain + _gene.PowerDrain <= 0)
+                    {
+                        addOrAppend(_gene, ref _remainingSlots);
+                        _remainingSlots.setSlot(_gene.Placement, (_remainingSlots.getSlot(_gene.Placement) - _gene.Count));
+                        _remainingSlots.RemainingSlots -= _gene.Count;
+                        placed = true;
+                        return true;
+                    }
+                    else
+                    {
+                        _gene = new Gene(GeneType.POWERPLANT, RandomManager.rollDwhatever(3), _gene.Placement);
+                    }
+
                 }
                 else
                 {

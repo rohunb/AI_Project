@@ -16,12 +16,26 @@ namespace AI_Fleet
         private int port;
         private int starboard;
 
+        private int maxSlots;
+        public int MaxSlots
+        {
+            get { return maxSlots; }
+            private set { maxSlots = value; }
+        }
+        private int remainingSlots;
+        public int RemainingSlots
+        {
+            get { return remainingSlots; }
+            set { remainingSlots = value; }
+        }
         public void setSlots(SlotsPerSection _slots)
         {
             forward = _slots.forward;
             aft = _slots.aft;
             port = _slots.port;
             starboard = _slots.starboard;
+            maxSlots = _slots.forward + _slots.aft + _slots.port + _slots.starboard;
+            remainingSlots = maxSlots;
         }
 
         public void setSlot(PlacementType _placement, int _value)
@@ -144,8 +158,11 @@ namespace AI_Fleet
             return chromosomes;
         }
 
+        private enum EquipPhase {WEAPONS, THRUSTERS, DEFENSE, SUPPORT, SCANNERS }
+
         private Chromosome PopulateChromosome(Chromosome _chromosome, int _numGenes, ref SlotsPerSection _remainingSlots)
         {
+            
             for (int i = 0; i < _numGenes; i++)
             {
                 _chromosome.willItFit(new Gene(hull), ref _remainingSlots);
