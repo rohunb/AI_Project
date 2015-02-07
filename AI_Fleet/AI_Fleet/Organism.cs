@@ -120,7 +120,7 @@ namespace AI_Fleet
         private int NumGenesByHull(OrganismHull _hull)
         {
             int numberOfGenes = 0;
-            numberOfGenes = RandomManager.randomInt(30, 50);
+            numberOfGenes = RandomManager.randomInt(20,30);
             return numberOfGenes;
         }
 
