@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace AI_Fleet
 {
-    public enum GeneType { LASER, MISSILE, RAILGUN, FLACK_CANNON, FIGHTER_BAY, REPAIR_BEAM, ARMOUR, SHIELD, POWERPLANT, THRUSTER, SCANNER }
+    public enum GeneType { LASER, MISSILE, RAILGUN, FLAK_CANNON, FIGHTER_BAY, REPAIR_BEAM, ARMOUR, SHIELD, POWERPLANT, THRUSTER, SCANNER }
     
-    public enum PlacementType { FORWARD, AFT, PORT, STARBOARD}
+    public enum PlacementType { FORWARD, AFT, PORT, STARBOARD, COUNT}
 
     class Gene
     {
@@ -34,6 +34,13 @@ namespace AI_Fleet
 
         private static uint totalGenes = 0;
         public uint ID;
+
+        private float fitness;
+        public float Fitness
+        {
+            get { return fitness; }
+            set { fitness = value; }
+        }
 
         //for a single component
         private float maxHP;
@@ -163,7 +170,7 @@ namespace AI_Fleet
                     armourDmgModifier = 0;
                     shieldDmgModifier = 0;
                     break;
-                case GeneType.FLACK_CANNON:
+                case GeneType.FLAK_CANNON:
                     activationCost = 20;
                     powerDrain = 20;
                     maxHP = 100;
@@ -244,6 +251,8 @@ namespace AI_Fleet
             type = _type;
             count = _count;
             placement = _palcement;
+
+            fitness = -1.0f; //FLAG for fitness function not run yet
 
             IncrementGeneCounter();
 

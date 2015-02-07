@@ -103,11 +103,11 @@ namespace AI_Fleet
         private static uint numOrganisms;
         public uint ID;
 
-        private OrganismHull hull;
+        private OrganismHull organismHull;
         public AI_Fleet.OrganismHull Hull
         {
-            get { return hull; }
-            set { hull = value; }
+            get { return organismHull; }
+            set { organismHull = value; }
         }
 
         private OrganismArchetype archetype;
@@ -135,14 +135,15 @@ namespace AI_Fleet
             return chromosomes;
         }
 
-        private enum EquipPhase {WEAPONS, THRUSTERS, DEFENSE, SUPPORT, SCANNERS }
+        //TODO: set this up so ship generation follows a more discernible pattern like this:
+        //private enum EquipPhase {WEAPONS, THRUSTERS, DEFENSE, SUPPORT, SCANNERS }
 
         private Chromosome PopulateChromosome(Chromosome _chromosome, int _numGenes, ref SlotsPerSection _remainingSlots)
         {
             
             for (int i = 0; i < _numGenes; i++)
             {
-                _chromosome.willItFit(new Gene(hull), ref _remainingSlots);
+                _chromosome.willItFit(new Gene(organismHull), ref _remainingSlots);
             }
             return _chromosome;
         }
@@ -151,14 +152,14 @@ namespace AI_Fleet
         {
             
             //assign a completely random genome
-            hull = (OrganismHull)(RandomManager.rollDwhatever((int)OrganismHull.COUNT));
+            organismHull = (OrganismHull)(RandomManager.rollDwhatever((int)OrganismHull.COUNT));
             archetype = (OrganismArchetype)(RandomManager.rollDwhatever((int)OrganismArchetype.COUNT));
             genome = new List<Chromosome>();
 
             initOrganism();
             SlotsPerSection remainingSlots = slots;
             
-            int numGenes = NumGenesByHull(hull);
+            int numGenes = NumGenesByHull(organismHull);
             genome = GenerateChromosomes(2);
 
             foreach (Chromosome chromosome in genome)
@@ -170,7 +171,7 @@ namespace AI_Fleet
 
         public Organism(List<Chromosome> _genome, OrganismHull _hull = OrganismHull.CORVETTE, OrganismArchetype _archetype = OrganismArchetype.SNIPER)
         {
-            hull = _hull;
+            organismHull = _hull;
             archetype = _archetype;
             genome = _genome;
             initOrganism();
@@ -189,7 +190,7 @@ namespace AI_Fleet
 
         private void assignSlots()
         {
-            switch (hull)
+            switch (organismHull)
             {
                 case OrganismHull.CORVETTE:
                     slots.setSlot(PlacementType.FORWARD, 9);
@@ -220,19 +221,193 @@ namespace AI_Fleet
             }
         }
 
-        private ShipBluePrint BluePrintFromChromosomes(List<Chromosome> _genome)
+        private Hull OrganismHull2Hull(OrganismHull _organismHull)
         {
-            return new ShipBluePrint();
+            Hull returnHull = new Hull();
+            SlotsPerSection slotsLeft = slots;
+            int numComponents = slotsLeft.getSlot(PlacementType.FORWARD) + slotsLeft.getSlot(PlacementType.AFT) + slotsLeft.getSlot(PlacementType.PORT) + slotsLeft.getSlot(PlacementType.STARBOARD);
+            List<ComponentSlot> shipSlots = new List<ComponentSlot>();
+
+            PlacementType currentlyPopulating = PlacementType.FORWARD;
+
+            bool finished = false;
+            while(!finished)
+            {
+                for (int i = 0; i < numComponents; i=i)
+                {
+                    ComponentSlot slot = new ComponentSlot();
+
+                    if (slotsLeft.getSlot(currentlyPopulating) <= 0)
+                    {
+                        currentlyPopulating++;
+                        if (currentlyPopulating == PlacementType.COUNT)
+                        {
+                            finished = true;
+                            break;
+                        }
+                    }
+
+                    slotsLeft.setSlot(currentlyPopulating, (slotsLeft.getSlot(currentlyPopulating) - 1));
+                    slot.Placement = currentlyPopulating;
+                    slot.index = i;
+                    shipSlots.Add(slot);
+
+                    i++;
+                    if (i >= numComponents)
+                    {
+                        finished = true;
+                        break;
+                    } 
+                }
+            }
+            returnHull.EmptyComponentGrid = shipSlots;
+
+            returnHull.Init();
+
+            return returnHull;
+        }
+
+        private ShipBlueprint BluePrintFromGene(Gene _gene, Hull _hull)
+        {
+            ShipBlueprint blueprint = new ShipBlueprint();
+
+            List<ComponentSlot> forwardComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> aftComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> portComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> starboardComponentSlots = new List<ComponentSlot>();
+
+            foreach (ComponentSlot slot in _hull.EmptyComponentGrid)
+            {
+                switch (slot.Placement)
+                {
+                    case PlacementType.FORWARD:
+                        forwardComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.AFT:
+                        aftComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.PORT:
+                        portComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.STARBOARD:
+                        starboardComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.COUNT:
+                        Console.WriteLine("Invalid Placement Slot in BluePrintFromGene");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            for (int i = 0; i < _gene.Count; i++)
+            {
+                switch (_gene.Placement)
+                {
+                    case PlacementType.FORWARD:
+                        forwardComponentSlots[i].InstalledComponent = GetComponentByType(_gene.Type);
+                        break;
+                    case PlacementType.AFT:
+                        aftComponentSlots[i].InstalledComponent = GetComponentByType(_gene.Type);
+                        break;
+                    case PlacementType.PORT:
+                        portComponentSlots[i].InstalledComponent = GetComponentByType(_gene.Type);
+                        break;
+                    case PlacementType.STARBOARD:
+                        starboardComponentSlots[i].InstalledComponent = GetComponentByType(_gene.Type);
+                        break;
+                    case PlacementType.COUNT:
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (ComponentSlot comp in forwardComponentSlots)
+            {
+                blueprint.AddComponent(comp, comp.InstalledComponent);
+            }
+            foreach (ComponentSlot comp in aftComponentSlots)
+            {
+                blueprint.AddComponent(comp, comp.InstalledComponent);
+            }
+            foreach (ComponentSlot comp in portComponentSlots)
+            {
+                blueprint.AddComponent(comp, comp.InstalledComponent);
+            }
+            foreach (ComponentSlot comp in starboardComponentSlots)
+            {
+                blueprint.AddComponent(comp, comp.InstalledComponent);
+            }
+
+            return blueprint;
+        }
+
+        private ShipComponent GetComponentByType(GeneType _type)
+        {
+            ShipComponent returnComponent;
+
+            switch (_type)
+            {
+                case GeneType.LASER:
+                    returnComponent = new Comp_Wpn_Laser();
+                    break;
+                case GeneType.MISSILE:
+                    returnComponent = new Comp_Wpn_Missile();
+                    break;
+                case GeneType.RAILGUN:
+                    returnComponent = new Comp_Wpn_Railgun();
+                    break;
+                case GeneType.FLAK_CANNON:
+                    returnComponent = new Comp_Wpn_Flak_Cannon();
+                    break;
+                case GeneType.FIGHTER_BAY:
+                    returnComponent = new Comp_Wpn_Fighter_Bay();
+                    break;
+                case GeneType.REPAIR_BEAM:
+                    returnComponent = new Comp_Wpn_Repair_Beam();
+                    break;
+                case GeneType.ARMOUR:
+                    returnComponent = new Comp_Def_Armour();
+                    break;
+                case GeneType.SHIELD:
+                    returnComponent = new Comp_Def_Shield();
+                    break;
+                case GeneType.POWERPLANT:
+                    returnComponent = new Comp_Pwr_PowerPlant();
+                    break;
+                case GeneType.THRUSTER:
+                    returnComponent = new Comp_Eng_Thruster();
+                    break;
+                case GeneType.SCANNER:
+                    returnComponent = new Comp_Sup_Scanner();
+                    break;
+                default:
+                    returnComponent = new Comp_Wpn_Laser();
+                    break;
+            }
+
+            return returnComponent;
+        }
+
+        private ShipBlueprint BluePrintFromChromosomes(List<Chromosome> _genome)
+        {
+
+            return new ShipBlueprint();
         }
 
         public void DebugDisplay()
         {
-            Console.WriteLine("Organism ID: " + ID + " hull: " + hull + " archetype: " + archetype);
+            Console.WriteLine("Organism ID: " + ID + " hull: " + organismHull + " archetype: " + archetype);
             Console.WriteLine("____________________________________________________________________");
             foreach (Chromosome chromosome in genome)
             {
                 chromosome.DebugDisplay();
             }
+            Hull myHUll = OrganismHull2Hull(organismHull);
+            ShipBlueprint sbp = BluePrintFromGene(genome[0].Alleles[0], myHUll);
+            sbp.hull = myHUll;
+            Console.WriteLine(sbp.slot_component_table[sbp.hull.index_slot_table[0]]);
             Console.WriteLine("____________________________________________________________________");
         }
 

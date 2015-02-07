@@ -43,13 +43,26 @@
   <ItemGroup>
     <Compile Include="Chromosome.cs" />
     <Compile Include="ComponentSlot.cs" />
+    <Compile Include="Component_Weapon.cs" />
+    <Compile Include="Comp_Def_Armour.cs" />
+    <Compile Include="Comp_Def_Shield.cs" />
+    <Compile Include="Comp_Eng_Thruster.cs" />
+    <Compile Include="Comp_Pwr_PowerPlant.cs" />
+    <Compile Include="Comp_Sup_Scanner.cs" />
+    <Compile Include="Comp_Wpn_Fighter_Bay.cs" />
+    <Compile Include="Comp_Wpn_Flak_Cannon.cs" />
+    <Compile Include="Comp_Wpn_Laser.cs" />
+    <Compile Include="Comp_Wpn_Missile.cs" />
+    <Compile Include="Comp_Wpn_Railgun.cs" />
+    <Compile Include="Comp_Wpn_Repair_Beam.cs" />
     <Compile Include="Gene.cs" />
+    <Compile Include="Hull.cs" />
     <Compile Include="Organism.cs" />
     <Compile Include="Population.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RandomManager.cs" />
-    <Compile Include="ShipBluePrint.cs" />
+    <Compile Include="ShipBlueprint.cs" />
     <Compile Include="ShipComponent.cs" />
   </ItemGroup>
   <ItemGroup>

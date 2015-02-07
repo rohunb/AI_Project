@@ -131,7 +131,7 @@ namespace AI_Fleet
             Console.WriteLine("~~~~~~~~~~~~~~~~~");
             foreach (Gene gene in alleles)
             {
-                gene.DebugDisplay();
+                //gene.DebugDisplay();
 
                 t_activationCost += gene.ActivationCost;
                 t_powerDrain += gene.PowerDrain;
