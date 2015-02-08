@@ -8,7 +8,12 @@ public enum ComponentType { Weapon, Defense, Power, Support }
 
 public abstract class ShipComponent//U// : MonoBehaviour, IPointerClickHandler, IPointerEnterHandler, IPointerExitHandler
 {
-
+    private AI_Fleet.PlacementType placement;
+    public AI_Fleet.PlacementType Placement
+    {
+        get { return placement; }
+        set { placement = value; }
+    }
     //Component info and stats
     //U//[SerializeField]
     private ComponentType compType;

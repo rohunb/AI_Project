@@ -230,36 +230,31 @@ namespace AI_Fleet
 
             PlacementType currentlyPopulating = PlacementType.FORWARD;
 
-            bool finished = false;
-            while(!finished)
+            for (int i = 0; i < numComponents; i=i)
             {
-                for (int i = 0; i < numComponents; i=i)
+                ComponentSlot slot = new ComponentSlot();
+
+                if (slotsLeft.getSlot(currentlyPopulating) <= 0)
                 {
-                    ComponentSlot slot = new ComponentSlot();
-
-                    if (slotsLeft.getSlot(currentlyPopulating) <= 0)
+                    currentlyPopulating++;
+                    if (currentlyPopulating == PlacementType.COUNT)
                     {
-                        currentlyPopulating++;
-                        if (currentlyPopulating == PlacementType.COUNT)
-                        {
-                            finished = true;
-                            break;
-                        }
-                    }
-
-                    slotsLeft.setSlot(currentlyPopulating, (slotsLeft.getSlot(currentlyPopulating) - 1));
-                    slot.Placement = currentlyPopulating;
-                    slot.index = i;
-                    shipSlots.Add(slot);
-
-                    i++;
-                    if (i >= numComponents)
-                    {
-                        finished = true;
                         break;
-                    } 
+                    }
                 }
+
+                slotsLeft.setSlot(currentlyPopulating, (slotsLeft.getSlot(currentlyPopulating) - 1));
+                slot.Placement = currentlyPopulating;
+                slot.index = i;
+                shipSlots.Add(slot);
+
+                i++;
+                if (i >= numComponents)
+                {
+                    break;
+                } 
             }
+            
             returnHull.EmptyComponentGrid = shipSlots;
 
             returnHull.Init();
@@ -300,6 +295,7 @@ namespace AI_Fleet
                 }
             }
 
+
             for (int i = 0; i < _gene.Count; i++)
             {
                 switch (_gene.Placement)
@@ -325,23 +321,141 @@ namespace AI_Fleet
 
             foreach (ComponentSlot comp in forwardComponentSlots)
             {
-                blueprint.AddComponent(comp, comp.InstalledComponent);
+                if (comp.InstalledComponent != null)
+                {
+                    comp.InstalledComponent.Placement = PlacementType.FORWARD;
+                    blueprint.AddComponent(comp, comp.InstalledComponent);
+                }
             }
             foreach (ComponentSlot comp in aftComponentSlots)
             {
-                blueprint.AddComponent(comp, comp.InstalledComponent);
+                if (comp.InstalledComponent != null)
+                {
+                    comp.InstalledComponent.Placement = PlacementType.AFT;
+                    blueprint.AddComponent(comp, comp.InstalledComponent);
+                }
             }
             foreach (ComponentSlot comp in portComponentSlots)
             {
-                blueprint.AddComponent(comp, comp.InstalledComponent);
+                if (comp.InstalledComponent != null)
+                {
+                    comp.InstalledComponent.Placement = PlacementType.PORT;
+                    blueprint.AddComponent(comp, comp.InstalledComponent);
+                }
             }
             foreach (ComponentSlot comp in starboardComponentSlots)
             {
-                blueprint.AddComponent(comp, comp.InstalledComponent);
+                if (comp.InstalledComponent != null)
+                {
+                    comp.InstalledComponent.Placement = PlacementType.STARBOARD;
+                    blueprint.AddComponent(comp, comp.InstalledComponent);
+                }
             }
 
             return blueprint;
         }
+
+
+        private ShipBlueprint BluePrintFromGenes(List<Gene> _genes, Hull _hull)
+        {
+            ShipBlueprint blueprint = new ShipBlueprint();
+
+            blueprint.hull = _hull;
+
+            foreach (Gene gene in _genes)
+	        {
+                for (int i = 0; i < gene.Count; i++)
+                {
+                    ShipComponent component = GetComponentByType(gene.Type);
+                    component.Placement = gene.Placement;
+                    AddComponentToBluePrint(ref blueprint, component);
+                }
+	        }
+            return blueprint;
+        }
+
+        private void AddComponentToBluePrint(ref ShipBlueprint _bluePrint, ShipComponent _component)
+        {
+            //determine placement
+            PlacementType componentPlacement = _component.Placement; 
+
+            List<ComponentSlot> forwardComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> aftComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> portComponentSlots = new List<ComponentSlot>();
+            List<ComponentSlot> starboardComponentSlots = new List<ComponentSlot>();
+
+            foreach (ComponentSlot slot in _bluePrint.hull.EmptyComponentGrid)
+            {
+                switch (slot.Placement)
+                {
+                    case PlacementType.FORWARD:
+                        forwardComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.AFT:
+                        aftComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.PORT:
+                        portComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.STARBOARD:
+                        starboardComponentSlots.Add(slot);
+                        break;
+                    case PlacementType.COUNT:
+                        Console.WriteLine("Invalid Placement Slot in BluePrintFromGene");
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            List<ComponentSlot> collectionToCheck;
+
+            switch (componentPlacement)
+            {
+                case PlacementType.FORWARD:
+                    collectionToCheck = forwardComponentSlots;
+                    break;
+                case PlacementType.AFT:
+                    collectionToCheck = aftComponentSlots;
+                    break;
+                case PlacementType.PORT:
+                    collectionToCheck = portComponentSlots;
+                    break;
+                case PlacementType.STARBOARD:
+                    collectionToCheck = starboardComponentSlots;
+                    break;
+                case PlacementType.COUNT:
+                    collectionToCheck = new List<ComponentSlot>();
+                    break;
+                default:
+                    collectionToCheck = new List<ComponentSlot>();
+                    break;
+            }
+
+            //find an open spot
+
+            int nextOpenIndex = 0;
+            foreach (ComponentSlot slot in _bluePrint.hull.EmptyComponentGrid)
+            {
+                if (slot.InstalledComponent == null)
+                {
+                    nextOpenIndex = slot.index;
+                }
+            }
+
+            //add the component
+            _bluePrint.hull.EmptyComponentGrid[nextOpenIndex].InstalledComponent = _component;
+
+            foreach (ComponentSlot comp in _bluePrint.hull.EmptyComponentGrid)
+            {
+                if (comp.InstalledComponent != null)
+                {
+                    comp.InstalledComponent.Placement = _component.Placement;
+                    _bluePrint.AddComponent(comp, comp.InstalledComponent);
+                }      
+            }     
+        }
+
 
         private ShipComponent GetComponentByType(GeneType _type)
         {
@@ -405,12 +519,23 @@ namespace AI_Fleet
                 chromosome.DebugDisplay();
             }
             Hull myHUll = OrganismHull2Hull(organismHull);
-            ShipBlueprint sbp = BluePrintFromGene(genome[0].Alleles[0], myHUll);
+            ShipBlueprint sbp = BluePrintFromGenes(genome[0].Alleles, myHUll);
             sbp.hull = myHUll;
-            Console.WriteLine(sbp.slot_component_table[sbp.hull.index_slot_table[0]]);
+
+            for (int i = 0; i < sbp.slot_component_table.Count; i++)
+            {
+                ComponentSlot cs = sbp.hull.index_slot_table[i];
+                if (cs.InstalledComponent == null)
+                {
+                    Console.Write("{NULL_COMPONENT} "); 
+                }
+                else
+                {
+                    Console.Write("{" + sbp.slot_component_table[cs] + " ");
+                    Console.Write(sbp.hull.index_slot_table[i].Placement + "} ");
+                }
+            }
             Console.WriteLine("____________________________________________________________________");
         }
-
-
     }
 }
